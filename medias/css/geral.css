@@ -1,0 +1,700 @@
+/*cadastro
+====================*/
+/*site
+====================*/
+/*botoes
+=====================*/
+/*geral*/
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* line 5, ../../../../Ruby/lib/ruby/gems/2.3.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, ../../../../Ruby/lib/ruby/gems/2.3.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, ../../../../Ruby/lib/ruby/gems/2.3.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, ../../../../Ruby/lib/ruby/gems/2.3.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, ../../../../Ruby/lib/ruby/gems/2.3.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, ../../../../Ruby/lib/ruby/gems/2.3.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, ../../../../Ruby/lib/ruby/gems/2.3.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, ../../../../Ruby/lib/ruby/gems/2.3.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, ../../../../Ruby/lib/ruby/gems/2.3.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block;
+}
+
+@media screen and (max-width: 600px) {
+  /* line 10, ../../ASSET/sass/screen.scss */
+  .box_btn {
+    float: none !important;
+  }
+
+  /* line 16, ../../ASSET/sass/screen.scss */
+  .center-on-small-only {
+    text-align: center !important;
+  }
+
+  /* line 19, ../../ASSET/sass/screen.scss */
+  nav ul {
+    margin-top: 0px !important;
+  }
+
+  /* line 23, ../../ASSET/sass/screen.scss */
+  .parallax-container {
+    height: auto !important;
+  }
+}
+@font-face {
+  font-family: 'Gentona-Bold';
+  src: url("fonts/Gentona-Bold.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-Bold.otf") format("opentype"), url("fonts/Gentona-Bold.woff") format("woff"), url("fonts/Gentona-Bold.ttf") format("truetype"), url("fonts/Gentona-Bold.svg#Gentona-Bold") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-BoldItalic';
+  src: url("fonts/Gentona-BoldItalic.eot") format("embedded-opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-Book';
+  src: url("fonts/Gentona-Book.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-Book.otf") format("opentype"), url("fonts/Gentona-Book.woff") format("woff"), url("fonts/Gentona-Book.ttf") format("truetype"), url("fonts/Gentona-Book.svg#Gentona-Book") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-BookItalic';
+  src: url("fonts/Gentona-BookItalic.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-BookItalic.otf") format("opentype"), url("fonts/Gentona-BookItalic.woff") format("woff"), url("fonts/Gentona-BookItalic.ttf") format("truetype"), url("fonts/Gentona-BookItalic.svg#Gentona-BookItalic") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-ExtraBoldDEMO';
+  src: url("fonts/Gentona-ExtraBoldDEMO.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-ExtraBoldDEMO.otf") format("opentype"), url("fonts/Gentona-ExtraBoldDEMO.woff") format("woff"), url("fonts/Gentona-ExtraBoldDEMO.ttf") format("truetype"), url("fonts/Gentona-ExtraBoldDEMO.svg#Gentona-ExtraBoldDEMO") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-ExtraBoldItalic';
+  src: url("fonts/Gentona-ExtraBoldItalic.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-ExtraBoldItalic.otf") format("opentype"), url("fonts/Gentona-ExtraBoldItalic.woff") format("woff"), url("fonts/Gentona-ExtraBoldItalic.ttf") format("truetype"), url("fonts/Gentona-ExtraBoldItalic.svg#Gentona-ExtraBoldItalic") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-ExtraLight';
+  src: url("fonts/Gentona-ExtraLight.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-ExtraLight.otf") format("opentype"), url("fonts/Gentona-ExtraLight.woff") format("woff"), url("fonts/Gentona-ExtraLight.ttf") format("truetype"), url("fonts/Gentona-ExtraLight.svg#Gentona-ExtraLight") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-ExtraLightItalic';
+  src: url("fonts/Gentona-ExtraLightItalic.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-ExtraLightItalic.otf") format("opentype"), url("fonts/Gentona-ExtraLightItalic.woff") format("woff"), url("fonts/Gentona-ExtraLightItalic.ttf") format("truetype"), url("fonts/Gentona-ExtraLightItalic.svg#Gentona-ExtraLightItalic") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-Heavy';
+  src: url("fonts/Gentona-Heavy.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-Heavy.otf") format("opentype"), url("fonts/Gentona-Heavy.woff") format("woff"), url("fonts/Gentona-Heavy.ttf") format("truetype"), url("fonts/Gentona-Heavy.svg#Gentona-Heavy") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-HeavyItalic';
+  src: url("fonts/Gentona-HeavyItalic.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-HeavyItalic.otf") format("opentype"), url("fonts/Gentona-HeavyItalic.woff") format("woff"), url("fonts/Gentona-HeavyItalic.ttf") format("truetype"), url("fonts/Gentona-HeavyItalic.svg#Gentona-HeavyItalic") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-Light';
+  src: url("fonts/Gentona-Light.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-Light.otf") format("opentype"), url("fonts/Gentona-Light.woff") format("woff"), url("fonts/Gentona-Light.ttf") format("truetype"), url("fonts/Gentona-Light.svg#Gentona-Light") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-LightItalic';
+  src: url("fonts/Gentona-LightItalic.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-LightItalic.otf") format("opentype"), url("fonts/Gentona-LightItalic.woff") format("woff"), url("fonts/Gentona-LightItalic.ttf") format("truetype"), url("fonts/Gentona-LightItalic.svg#Gentona-LightItalic") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-Medium';
+  src: url("fonts/Gentona-Medium.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-Medium.otf") format("opentype"), url("fonts/Gentona-Medium.woff") format("woff"), url("fonts/Gentona-Medium.ttf") format("truetype"), url("fonts/Gentona-Medium.svg#Gentona-Medium") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-MediumItalic';
+  src: url("fonts/Gentona-MediumItalic.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-MediumItalic.otf") format("opentype"), url("fonts/Gentona-MediumItalic.woff") format("woff"), url("fonts/Gentona-MediumItalic.ttf") format("truetype"), url("fonts/Gentona-MediumItalic.svg#Gentona-MediumItalic") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-SemiBold';
+  src: url("fonts/Gentona-SemiBold.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-SemiBold.otf") format("opentype"), url("fonts/Gentona-SemiBold.woff") format("woff"), url("fonts/Gentona-SemiBold.ttf") format("truetype"), url("fonts/Gentona-SemiBold.svg#Gentona-SemiBold") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-SemiBoldItalic';
+  src: url("fonts/Gentona-SemiBoldItalic.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-SemiBoldItalic.otf") format("opentype"), url("fonts/Gentona-SemiBoldItalic.woff") format("woff"), url("fonts/Gentona-SemiBoldItalic.ttf") format("truetype"), url("fonts/Gentona-SemiBoldItalic.svg#Gentona-SemiBoldItalic") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-Thin';
+  src: url("fonts/Gentona-Thin.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-Thin.otf") format("opentype"), url("fonts/Gentona-Thin.woff") format("woff"), url("fonts/Gentona-Thin.ttf") format("truetype"), url("fonts/Gentona-Thin.svg#Gentona-Thin") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Gentona-ThinItalic';
+  src: url("fonts/Gentona-ThinItalic.eot?#iefix") format("embedded-opentype"), url("fonts/Gentona-ThinItalic.otf") format("opentype"), url("fonts/Gentona-ThinItalic.woff") format("woff"), url("fonts/Gentona-ThinItalic.ttf") format("truetype"), url("fonts/Gentona-ThinItalic.svg#Gentona-ThinItalic") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Chilena-Gruesa';
+  src: url("fonts/Chilena-Gruesa.eot?#iefix") format("embedded-opentype"), url("fonts/Chilena-Gruesa.otf") format("opentype"), url("fonts/Chilena-Gruesa.woff") format("woff"), url("fonts/Chilena-Gruesa.ttf") format("truetype"), url("fonts/Chilena-Gruesa.svg#Chilena-Gruesa") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+/* line 7, ../../ASSET/sass/geral.scss */
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+/* line 13, ../../ASSET/sass/geral.scss */
+main {
+  flex: 1 0 auto;
+  margin-bottom: 20px;
+}
+
+/* line 18, ../../ASSET/sass/geral.scss */
+.row {
+  margin-bottom: 0px;
+}
+
+/* line 21, ../../ASSET/sass/geral.scss */
+section {
+  overflow: hidden;
+}
+
+/* header site
+====================*/
+/* line 30, ../../ASSET/sass/geral.scss */
+.barra_top {
+  background: #8792aa;
+  padding: 20px 0;
+}
+
+/* line 34, ../../ASSET/sass/geral.scss */
+.barra_top p {
+  font-size: 12px;
+  color: #fff;
+  font-family: 'gentona-Book';
+  font-weight: 300;
+}
+
+/* line 40, ../../ASSET/sass/geral.scss */
+.barra_top p span {
+  color: #4d5d8c;
+}
+
+/* line 44, ../../ASSET/sass/geral.scss */
+.bg-header-site {
+  background: #fff !important;
+  border-bottom: 1px solid #8792aa;
+}
+
+/* line 51, ../../ASSET/sass/geral.scss */
+.Hnav {
+  margin-top: 35px;
+}
+
+/* line 55, ../../ASSET/sass/geral.scss */
+nav .button-collapse {
+  left: -12px;
+}
+
+/* line 58, ../../ASSET/sass/geral.scss */
+.title-slide {
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #fff;
+  text-align: center;
+  font-family: 'Gentona-Medium';
+  background: #223c54 !important;
+}
+
+/* line 70, ../../ASSET/sass/geral.scss */
+.side-nav li {
+  background: #8792aa;
+  border-bottom: 1px solid #223c54;
+}
+
+/* line 75, ../../ASSET/sass/geral.scss */
+.side-nav a {
+  color: #fff;
+  font-size: 18px;
+  height: 64px;
+  text-transform: uppercase;
+}
+
+/* line 83, ../../ASSET/sass/geral.scss */
+.link {
+  color: #2c2b2b !important;
+  font-family: 'gentona-Light';
+  -webkit-transition: ease 0.3s;
+  -moz-transition: ease 0.3s;
+  -ms-transition: ease 0.3s;
+  -o-transition: ease 0.3s;
+  transition: ease 0.3s;
+}
+
+/* line 89, ../../ASSET/sass/geral.scss */
+.link:hover {
+  color: #8792aa !important;
+}
+
+/*home
+=======================================*/
+/*PARALLAX
+========================*/
+/* line 99, ../../ASSET/sass/geral.scss */
+.bg_busca {
+  background: #4d5d8c;
+  padding: 20px 0;
+  padding-bottom: 40px;
+}
+
+/* line 105, ../../ASSET/sass/geral.scss */
+.parallax-container {
+  height: 420px;
+}
+
+/* line 113, ../../ASSET/sass/geral.scss */
+.text-paralax-home h1 {
+  margin-top: 50px;
+  color: #223c54;
+  font-weight: 600;
+  font-size: 32px;
+  font-family: 'Chilena-Gruesa';
+}
+
+/* line 123, ../../ASSET/sass/geral.scss */
+.text-paralax-home p {
+  margin-top: 10px;
+  color: #4d5d8c;
+  font-family: 'Gentona-LightItalic';
+  font-size: 15px;
+}
+
+/* line 130, ../../ASSET/sass/geral.scss */
+.text-paralax-home h2 {
+  margin-top: 50px;
+  color: #223c54;
+  font-family: 'Gentona-Bold';
+  font-size: 27px;
+}
+
+/* line 138, ../../ASSET/sass/geral.scss */
+.destaque-paralax {
+  margin-top: 20px;
+}
+
+/* line 142, ../../ASSET/sass/geral.scss */
+.btn-paralax {
+  padding: 10px 40px !important;
+  background: #f02656;
+  border-bottom: 3px solid #b73453 !important;
+  display: inline-block;
+  color: #fff;
+  text-align: center;
+  font-family: 'Gentona-Medium' !important;
+  font-size: 12px !important;
+  font-weight: 300 !important;
+  width: 150px;
+  margin-bottom: 20px;
+}
+
+/* line 157, ../../ASSET/sass/geral.scss */
+.btn-paralax:hover {
+  background: #b73453;
+  border-bottom: 3px solid #f02656 !important;
+}
+
+/* line 162, ../../ASSET/sass/geral.scss */
+.select-search {
+  background: #fff;
+}
+
+/* line 167, ../../ASSET/sass/geral.scss */
+.bg_busca .select-wrapper span.caret {
+  position: absolute;
+  right: 7px;
+  top: 19px;
+  font-size: 15px;
+  color: #8b8b8b;
+}
+
+/* line 175, ../../ASSET/sass/geral.scss */
+.bg_busca .select-wrapper input.select-dropdown {
+  color: #8b8b8b;
+  font-family: 'Gentona-Medium';
+  text-align: center;
+}
+
+/* line 180, ../../ASSET/sass/geral.scss */
+.bg_busca .dropdown-content li > a, .dropdown-content li > span {
+  color: #8b8b8b;
+  font-family: 'Gentona-Medium';
+}
+
+/*COMO FUNCIONA
+===================================*/
+/* line 188, ../../ASSET/sass/geral.scss */
+.bg_use {
+  margin: 40px 0;
+}
+
+/* line 194, ../../ASSET/sass/geral.scss */
+.title-use h1 {
+  font-family: 'Chilena-Gruesa';
+  font-size: 28px;
+  color: #8b8b8b;
+}
+
+/* line 199, ../../ASSET/sass/geral.scss */
+.processos {
+  margin-top: 20px;
+}
+
+/* line 203, ../../ASSET/sass/geral.scss */
+.processos .numero {
+  font-family: Gentona-Bold;
+  font-size: 32px;
+  color: #00bf9e;
+  display: inline-block;
+  margin-left: 30px;
+  vertical-align: top;
+}
+
+/* line 212, ../../ASSET/sass/geral.scss */
+.processos .text_processos {
+  font-size: 14px;
+  display: inline-block;
+}
+
+/* line 218, ../../ASSET/sass/geral.scss */
+.faixa-home {
+  background: #8b8b8b;
+  height: 100px;
+}
+
+/* line 223, ../../ASSET/sass/geral.scss */
+.bg_centro_med {
+  margin-top: 100px;
+}
+
+/* line 227, ../../ASSET/sass/geral.scss */
+.text_centro_med {
+  margin-top: 50px;
+}
+
+/* line 230, ../../ASSET/sass/geral.scss */
+.text_centro_med h1 {
+  color: #223c54;
+  font-size: 32px;
+  font-weight: 700;
+  font-family: 'Gentona-Bold';
+}
+
+/* line 237, ../../ASSET/sass/geral.scss */
+.text_centro_med p {
+  padding: 20px 0;
+  color: #2c2b2b;
+  font-size: 18px;
+  font-family: 'Gentona-Light';
+  line-height: 27px;
+}
+
+/* line 245, ../../ASSET/sass/geral.scss */
+.text_centro_med p span {
+  color: #2c2b2b;
+  font-weight: 700;
+}
+
+/* line 255, ../../ASSET/sass/geral.scss */
+footer.page-footer {
+  margin-top: 20px;
+  padding-top: 20px;
+  background-color: #223c54;
+  height: 400px;
+}
+
+/* line 262, ../../ASSET/sass/geral.scss */
+.btn-collapse-color {
+  color: #223c54;
+}
+
+/*fim css site
+----------------------------------------------------------------------------------------------------------------------*/
+/* header cadastro
+======================================================================================================================*/
+/* line 273, ../../ASSET/sass/geral.scss */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Gentona-Light';
+}
+
+/* line 277, ../../ASSET/sass/geral.scss */
+.bg-header, .bg-header-site {
+  background: #4d5d8c;
+  padding: 10px;
+}
+
+/* line 282, ../../ASSET/sass/geral.scss */
+.logo {
+  margin-top: 20px;
+}
+
+/* line 286, ../../ASSET/sass/geral.scss */
+nav {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* line 291, ../../ASSET/sass/geral.scss */
+.side-nav {
+  background: #4d5d8c;
+}
+
+/* line 298, ../../ASSET/sass/geral.scss */
+nav ul a {
+  color: #f2f2f2 !important;
+}
+
+/* line 304, ../../ASSET/sass/geral.scss */
+nav ul a:hover {
+  background-color: transparent;
+}
+
+/*home
+====================*/
+/* line 311, ../../ASSET/sass/geral.scss */
+.home-margin-top, nav ul, .separador-sessoes {
+  margin-top: 40px;
+}
+
+/* line 315, ../../ASSET/sass/geral.scss */
+.title_cadastro {
+  background: #f2f2f2;
+  padding: 20px;
+}
+
+/* line 320, ../../ASSET/sass/geral.scss */
+.title_cadastro h1 {
+  color: #8792aa;
+  font-size: 24px;
+  font-weight: 300;
+}
+
+/* line 327, ../../ASSET/sass/geral.scss */
+.title {
+  margin: 10px 0;
+}
+
+/* line 331, ../../ASSET/sass/geral.scss */
+.title h2 {
+  font-size: 20px;
+  color: #00bf9e;
+}
+
+/*form*/
+/* line 338, ../../ASSET/sass/geral.scss */
+.text_input, .processos .text_processos, nav ul a, .cadastro label, .cadastro input.select-dropdown, .cadastro textarea, .cadastro input, .cadastro .dropdown-content li {
+  font-family: 'gentona-Book';
+  color: #8b8b8b;
+}
+
+/* line 342, ../../ASSET/sass/geral.scss */
+.bold {
+  font-weight: 600;
+}
+
+/* line 346, ../../ASSET/sass/geral.scss */
+.cadastro label {
+  font-size: 14px;
+}
+
+/* line 351, ../../ASSET/sass/geral.scss */
+.cadastro input.select-dropdown {
+  font-size: 14px !important;
+}
+
+/* line 356, ../../ASSET/sass/geral.scss */
+.cadastro textarea {
+  font-size: 12px;
+}
+
+/* line 361, ../../ASSET/sass/geral.scss */
+.cadastro input {
+  font-size: 12px;
+}
+
+/* line 367, ../../ASSET/sass/geral.scss */
+.cadastro .dropdown-content li {
+  font-size: 14px !important;
+}
+
+/* line 372, ../../ASSET/sass/geral.scss */
+input:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {
+  height: 2rem;
+}
+
+/* line 376, ../../ASSET/sass/geral.scss */
+[type="radio"]:not(:checked) + label, [type="radio"]:checked + label {
+  padding-left: 30px;
+  font-size: 14px;
+  height: 40px;
+  left: 0px;
+}
+
+/* line 388, ../../ASSET/sass/geral.scss */
+.separator {
+  background: url("../img/line_break.png") center center;
+  height: 1px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+/* line 395, ../../ASSET/sass/geral.scss */
+.margin-footer {
+  margin-bottom: 50px;
+}
+
+/* botoes
+====================*/
+/* line 402, ../../ASSET/sass/geral.scss */
+.box_btn {
+  float: right;
+}
+
+/* line 406, ../../ASSET/sass/geral.scss */
+.botao, .btn-paralax, .btn_cadastro, .btn_menu {
+  padding: 15px 30px;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  font-family: 'gentona-Book';
+  -webkit-transition: ease 0.4s;
+  -moz-transition: ease 0.4s;
+  -ms-transition: ease 0.4s;
+  -o-transition: ease 0.4s;
+  transition: ease 0.4s;
+}
+
+/* line 415, ../../ASSET/sass/geral.scss */
+.btn_cadastro {
+  background: #f02656;
+  border-bottom: 3px solid #b73453;
+  color: #fff;
+  float: right;
+  margin-bottom: 20px;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #fff;
+}
+
+/* line 428, ../../ASSET/sass/geral.scss */
+.btn_cadastro:hover {
+  background: #fff;
+  color: #f02656;
+  border: 1px solid #f02656;
+}
+
+/* line 434, ../../ASSET/sass/geral.scss */
+.btn_menu {
+  background: #00bf9e;
+  border-bottom: 3px solid #11947e;
+  color: #fff;
+  display: inline;
+}
+
+/* line 442, ../../ASSET/sass/geral.scss */
+.btn_menu:hover {
+  background: #11947e;
+  border-bottom: 3px solid #00bf9e;
+}
+
+/* line 448, ../../ASSET/sass/geral.scss */
+#loader {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: none;
+}
+/* line 456, ../../ASSET/sass/geral.scss */
+#loader .valign-wrapper {
+  height: 100%;
+}
+/* line 458, ../../ASSET/sass/geral.scss */
+#loader .valign-wrapper .valign {
+  margin: 0 auto;
+}

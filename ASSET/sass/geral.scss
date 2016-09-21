@@ -1,0 +1,462 @@
+@import 'cores';
+@import 'variaveis';
+@import 'mixins';
+@import 'screen';
+@import 'fonts';
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+  margin-bottom: $margin-bottom-20;
+}
+
+.row{
+  margin-bottom: $margin-bottom-0;
+}
+section{
+  overflow: hidden;
+}
+
+
+
+/* header site
+====================*/
+
+.barra_top{
+  background: $azulClaro;
+  padding: $padding-t-b-20;
+}
+.barra_top p{
+  font-size: $fontsize-12;
+  color: $branco;
+  font-family: 'gentona-Book';
+  font-weight: $weight-300;
+}
+.barra_top p span{
+  color: $azul;
+}
+
+.bg-header-site{
+  @extend .bg-header;
+  background: $branco !important;
+  border-bottom: $border-1 $azulClaro;
+
+}
+
+.Hnav{
+  margin-top: $margin-top-35;
+}
+
+nav .button-collapse{
+  left: -12px;
+}
+.title-slide{
+  font-size: $fontsize-20;
+  font-weight: $weight-600;
+  text-transform: uppercase;
+  color: $branco;
+  text-align: center;
+  font-family: 'Gentona-Medium';
+  background: $azul-default !important;
+}
+
+
+
+.side-nav li{
+  background: $azulClaro;
+  border-bottom: $border-1 $azul-default;
+}
+
+.side-nav a {
+  color: $branco;
+  font-size: $fontsize-18;
+  height: 64px;
+  text-transform: uppercase;
+}
+
+
+.link{
+  color:$cinza-chumbo !important;
+  font-family: 'gentona-Light';
+  @include transition(ease 0.3s);
+}
+
+.link:hover{
+  color: $azulClaro !important;
+}
+
+/*home
+=======================================*/
+
+/*PARALLAX
+========================*/
+
+.bg_busca{
+  background: $azul;
+  padding: $padding-t-b-20;
+  padding-bottom: $padding-bottom-40;
+}
+
+.parallax-container {
+  height: 420px;
+}
+
+.content_paralax{
+
+}
+
+.text-paralax-home h1{
+  margin-top: $margin-top-50;
+  color: $azul-default;
+  font-weight: $weight-600;
+  font-size: $fontsize-32;
+  font-family: 'Chilena-Gruesa';
+
+
+}
+
+.text-paralax-home p{
+  margin-top: $margin-top-10;
+  color: $azul;
+  font-family: 'Gentona-LightItalic';
+  font-size: 15px;
+
+}
+.text-paralax-home h2{
+  margin-top: $margin-top-50;
+  color: $azul-default;
+  font-family: 'Gentona-Bold';
+  font-size: 27px;
+
+}
+
+.destaque-paralax{
+ margin-top: $margin-top-20;
+}
+
+.btn-paralax{
+  @extend .botao;
+  padding: 10px 40px !important;
+  background: $rosaBtn;
+  border-bottom: $btn-borderbottom-cadastro !important;
+  display: inline-block;
+  color: $branco;
+  text-align: center;
+  font-family: 'Gentona-Medium' !important;
+  font-size: $fontsize-12 !important;
+  font-weight: $weight-300 !important;
+  width: 150px;
+  margin-bottom: $margin-bottom-20;
+}
+
+.btn-paralax:hover{
+  background: $rosa;
+  border-bottom: 3px solid $rosaBtn !important;
+}
+
+.select-search{
+  background: $branco;
+}
+
+
+.bg_busca .select-wrapper span.caret {
+  position: absolute;
+  right: 7px;
+  top: 19px;
+  font-size: 15px;
+  color: $cinzaEscuro;
+}
+
+.bg_busca .select-wrapper input.select-dropdown{
+  color: $cinzaEscuro;
+  font-family: 'Gentona-Medium';
+  text-align: center;
+}
+.bg_busca .dropdown-content li > a, .dropdown-content li > span{
+  color: $cinzaEscuro;
+  font-family: 'Gentona-Medium';
+}
+
+/*COMO FUNCIONA
+===================================*/
+
+.bg_use{
+  margin: $margin-t-b-40;
+}
+.title-use{}
+
+
+.title-use h1{
+  font-family: 'Chilena-Gruesa';
+  font-size: $fontsize-28;
+  color: $cinzaEscuro;
+}
+.processos{
+margin-top: $margin-top-20;
+}
+
+.processos .numero{
+  font-family: Gentona-Bold;
+  font-size: $fontsize-32;
+  color: $azulTif;
+  display: inline-block;
+  margin-left: $margin-left-30;
+  vertical-align: top;
+}
+
+.processos .text_processos{
+  @extend .text_input;
+  font-size: $fontsize-14;
+  display: inline-block;
+  }
+
+.faixa-home{
+  background: $cinzaEscuro;
+  height: 100px;
+}
+
+.bg_centro_med{
+  margin-top: $margin-top-100;
+}
+
+.text_centro_med{
+  margin-top: $margin-top-50;
+}
+.text_centro_med h1{
+  color: $azul-default;
+  font-size: $fontsize-32;
+  font-weight: $weight-700;
+  font-family: 'Gentona-Bold';
+}
+
+.text_centro_med p{
+  padding: $padding-t-b-20;
+  color: $cinza-chumbo;
+  font-size: $fontsize-18;
+  font-family: 'Gentona-Light';
+  line-height: 27px;
+}
+
+.text_centro_med p span{
+  color: $cinza-chumbo;
+  font-weight: $weight-700;
+
+}
+
+.btn_med{
+
+}
+
+footer.page-footer {
+  margin-top: 20px;
+  padding-top: 20px;
+  background-color: $azul-default;
+  height:400px;
+}
+
+.btn-collapse-color{
+  color: $azul-default;
+}
+
+/*fim css site
+----------------------------------------------------------------------------------------------------------------------*/
+
+
+/* header cadastro
+======================================================================================================================*/
+
+h1,h2,h3,h4,h5,h6{
+  font-family: 'Gentona-Light';
+}
+
+.bg-header{
+  background: $azul;
+  padding: $padding-10;
+}
+
+.logo{
+  margin-top: $margin-top-20;
+}
+
+nav{
+  background-color: $transparent !important;
+  box-shadow: none !important;
+}
+
+.side-nav{
+  background: $azul;
+}
+
+nav ul{
+  @extend .home-margin-top;
+}
+nav ul a{
+  color:$cinzaClaro !important;
+  @extend .text_input
+
+}
+
+nav ul a:hover {
+  background-color: transparent;
+}
+
+/*home
+====================*/
+
+.home-margin-top{
+  margin-top: $margin-top-40;
+}
+
+.title_cadastro{
+  background: $cinzaClaro;
+  padding: $padding-20;
+}
+
+.title_cadastro h1{
+  color: $azulClaro;
+  font-size: $fontsize-24;
+  font-weight: 300;
+
+}
+
+.title{
+  margin: $padding-t-b-10;
+}
+
+.title h2{
+  font-size: $fontsize-20;
+  color: $azulTif;
+}
+
+/*form*/
+
+.text_input{
+  font-family: 'gentona-Book';
+  color: $cinzaEscuro;
+}
+.bold{
+  font-weight: $weight-600;
+}
+
+.cadastro label{
+  @extend .text_input;
+  font-size: $fontsize-14;
+}
+
+.cadastro input.select-dropdown{
+  @extend .text_input;
+  font-size: $fontsize-14 !important;
+}
+
+.cadastro textarea{
+  @extend .text_input;
+  font-size: $fontsize-12;
+}
+
+.cadastro input{
+  @extend .text_input;
+  font-size: $fontsize-12;
+
+}
+
+.cadastro .dropdown-content li{
+  @extend .text_input;
+  font-size: $fontsize-14 !important;
+}
+
+input:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea{
+  height: 2rem;
+}
+
+[type="radio"]:not(:checked) + label, [type="radio"]:checked + label {
+  padding-left: 30px;
+  font-size: $fontsize-14;
+  height:40px;
+  left:0px;
+
+}
+
+.separador-sessoes{
+  @extend .home-margin-top;
+}
+
+.separator{
+  background: url("../img/line_break.png") center center;
+  height: 1px;
+  margin-top: $margin-top-40;
+  margin-bottom: $margin-bottom-20;
+}
+
+.margin-footer{
+  margin-bottom: $margin-bottom-footer;
+}
+
+/* botoes
+====================*/
+
+.box_btn{
+  float: right;
+}
+
+.botao{
+  padding: $btn-padding-cadastro;
+  font-weight: $weight-600;
+  font-size: $fontsize-14;
+  border: $border-none;
+  font-family: 'gentona-Book';
+  @include transition(ease 0.4s);
+}
+
+.btn_cadastro{
+  background: $rosaBtn;
+  border-bottom: $btn-borderbottom-cadastro;
+  color: $branco;
+  @extend .botao;
+  float: right;
+  margin-bottom: $margin-bottom-20;
+  border-top:$border-1 $branco;
+  border-left:$border-1 $branco;
+  border-right:$border-1 $branco;
+
+}
+
+.btn_cadastro:hover{
+  background: $branco;
+  color: $rosaBtn;
+  border: 1px solid $rosaBtn;
+}
+
+.btn_menu{
+   @extend .botao;
+   background: $azulTif;
+   border-bottom: 3px solid $azulTifDark;
+   color: $branco;
+   display: inline;
+ }
+
+.btn_menu:hover{
+  background: $azulTifDark;
+  border-bottom: 3px solid $azulTif;
+
+}
+
+#loader {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.2);
+  display: none;
+  .valign-wrapper{
+    height: 100%;
+    .valign {
+      margin: 0 auto;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+<?php
+/**
+ * Created by Grupo B+M
+ * User: Esdras Castro
+ * Date: 19/08/2016
+ */
+if(self::$showBreadcrumb) {
+    ?>
+    <nav>
+        <div class="nav-wrapper grey darken-3">
+            <div class="col s12">
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12">
+                            <img src="<?= self::$basePath . 'images/folhas_b.png'; ?>" style="vertical-align: sub;">
+                            <?= self::getBreadcrumb(); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <?
+}

@@ -1,0 +1,21 @@
+<?php
+/**
+ * Created by Grupo B+M
+ * User: Esdras Castro
+ * Date: 17/08/2016
+ */
+if(empty(self::$privilegio)){
+    self::redirect(self::$basePath.'/login');
+    exit;
+}
+?>
+<main>
+    <div class="container">
+        <div class="row"><div class="col s12"></div></div>
+        <div class="row">
+            <div class="col s12 center-align">
+                Selecione uma opção acima!
+            </div>
+        </div>
+    </div>
+</main>

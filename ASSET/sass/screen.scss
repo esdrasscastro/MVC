@@ -1,0 +1,28 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+
+
+@media screen and(max-width: $wMob){
+  .box_btn {
+    float: none !important;
+  }
+
+
+
+  .center-on-small-only {
+    text-align: center !important;
+  }
+  nav ul {
+    margin-top: 0px !important;
+  }
+
+  .parallax-container{
+    height: auto !important;
+  }
+
+
+}

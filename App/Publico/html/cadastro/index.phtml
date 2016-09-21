@@ -1,0 +1,331 @@
+<?php
+/**
+ * Created by Grupo B+M
+ * User: Esdras Castro
+ * Date: 17/08/2016
+ */
+?>
+<main>
+    <div class="title_cadastro center-align">
+        <h1>Cadastro dos Prestadores</h1>
+    </div>
+    <div class="container home-margin-top">
+        <form class="cadastro" action="<?=parent::$basePath.'cadastrar/fazerCadastro/'.\Lib\Tools\Hash::rescue_key_generate('cadastrar_prestador');?>" method="post" enctype="application/x-www-form-urlencoded" redirect="true" id="cadastro_prestadores" name="cadastro_novo_prestador">
+            <div class="row">
+                <div class="col m1 push-m2 s12 center-on-small-only right-align">
+                    <img src="<?=parent::$imagePath.'mark_num1.png';?>" alt="">
+                </div>
+                <div class="col m7 offset-m2 s12 ">
+                    <div class="row">
+                        <div class="col m12 s12 center-on-small-only">
+                            <div class="title">
+                                <h2>Dados de acesso</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <?
+                        $PrestadorTipo = new \Modelo\Prestador\PrestadorTipo();
+                        $prestadorTipo = $PrestadorTipo->pegar('prestadortipo_publico=1');
+                        if($prestadorTipo->rowCount()){
+                            $i=0;
+                            foreach ($prestadorTipo->results(false) as $item){
+                                ?>
+                                <div class="input-field col m6 s12">
+                                    <input class="with-gap" name="prestadortipo_id" value="<?=$item->getPrestadortipoId();?>" type="radio" id="prestadortipo_id_<?=$item->getPrestadortipoId();?>" <?=($i==0    )?'checked':'';?> />
+                                    <label for="prestadortipo_id_<?=$item->getPrestadortipoId();?>"><?=$item->getPrestadortipoNome();?></label>
+                                </div>
+                                <?
+                                $i++;
+                            }
+                        }
+                        ?>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m12 s12">
+                            <input name="users_username" id="users_username" type="email" class="validate" required>
+                            <label for="users_username" >Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m6 s6">
+                            <input name="users_password" id="users_password" type="password" class="validate" required>
+                            <label for="users_password">Senha</label>
+                        </div>
+                        <div class="input-field col m6 s6">
+                            <input name="conf_senha" id="conf_senha" type="password" class="validate" required>
+                            <label for="conf_senha">Confirme sua Senha</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row separador-sessoes">
+                <div class="col m1 push-m2 s12 center-on-small-only right-align">
+                    <img src="<?=parent::$imagePath.'mark_num2.png';?>" alt="">
+                </div>
+                <div class="col m7 offset-m2 s12 ">
+                    <div class="row">
+                        <div class="col m12 s12 center-on-small-only">
+                            <div class="title">
+                                <h2>Informações</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m12 s12">
+                            <input name="prestador_nome" id="prestador_nome" type="text" class="validate" required>
+                            <label for="prestador_nome">Nome ou Razão Social</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m12 s12">
+                            <div class="row">
+                                <div class="col s6 m3 l2">
+                                    <input class="with-gap" type="radio" id="radio_cpf" value="1" name="radio_cpf_cnpj" checked>
+                                    <label for="radio_cpf">CPF</label>
+                                </div>
+                                <div class="col s6 m3 l2">
+                                    <input class="with-gap" type="radio" id="radio_cnpj" value="2" name="radio_cpf_cnpj">
+                                    <label for="radio_cnpj">CNPJ</label>
+                                </div>
+                            </div>
+                           <div class="row">
+                               <div class="col s12 m4 l4">
+                                   <input name="prestador_cpf_cnpj" id="prestador_cpf_cnpj" type="text" class="validate" required>
+                                   <label for="prestador_cpf_cnpj"></label>
+                               </div>
+                           </div>
+                        </div>
+                        <div class="input-field col m3 s12">
+                            <input name="prestador_crm" id="prestador_crm" type="text" class="validate" >
+                            <label for="prestador_crm">CRM</label>
+                        </div>
+                        <div class="input-field col m9 s12">
+                            <input name="prestador_responsavel" id="prestador_responsavel" type="text" class="validate" >
+                            <label for="prestador_responsavel">Nome do Responsável</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row separador-sessoes">
+                <div class="col m1 push-m2 s12 center-on-small-only right-align">
+                    <img src="<?=parent::$imagePath.'mark_num3.png';?>" alt="">
+                </div>
+                <div class="col m7 offset-m2 ">
+                    <div class="row">
+                        <div class="col m12 s12 center-on-small-only">
+                            <div class="title">
+                                <h2>Dados de Busca</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m12 s12">
+                            <?
+                            $Especialidade = new \Modelo\Especialidade();
+                            $Especialidade->pegar('especialidade_publico=1');
+                            ?>
+                            <select name="especialidade_id[]" id="especialidade_id" multiple required>
+                                <option selected disabled></option>
+                                <?
+                                if($Especialidade->rowCount() > 0){
+                                    foreach ($Especialidade->results(false) as $item)
+                                        echo "<option value='{$item->getEspecialidadeId()}'>{$item->getEspecialidadeNome()}</option>";
+                                }
+                                ?>
+                            </select>
+                            <label for="especialidade_id">Especialidade Médica</label>
+                        </div>
+                    </div>
+
+                    <?
+                    $ExameCategoria = new \Modelo\Exame\ExameCategoria();
+                    $ExameCategoria->pegar('examecategoria_publico=1 AND examecategoriatipo_publico=1');
+
+                    $prevId = 0;
+                    if($ExameCategoria->rowCount() > 0){
+                        foreach ($ExameCategoria->results(false) as $item){
+                            if($prevId!=$item->getExamecategoriatipoId()){
+                                if($prevId!=0) echo "</div><div class='separator'></div>";
+                                echo "<div class='row'><div class='col m12'><label class='bold'>{$item->getExamecategoriatipoNome()}</label></div>";
+                            }
+                            ?>
+                            <div class="input-field col m4 s12">
+                                <input class="filled-in" type="checkbox" name="exame_categoria_id[]" value="<?=$item->getExamecategoriaId();?>" id="categoria_id_<?=$item->getExamecategoriaId();?>" />
+                                <label for="categoria_id_<?=$item->getExamecategoriaId();?>"><?=$item->getExamecategoriaNome();?></label>
+                            </div>
+                            <?
+                            if($prevId!=$item->getExamecategoriatipoId()) $prevId=$item->getExamecategoriatipoId();
+                        }
+                        echo "</div>";
+                    }
+                    ?>
+
+                    <div class="separator"></div>
+                    <div class="row">
+                        <div class="col m12 s12">
+                            <label>Procedimentos</label>
+                        </div>
+                        <div class="col m12 s12">
+                            <?
+                            $Procedimento = new \Modelo\Procedimento();
+                            $Procedimento->pegar('procedimento_publico=1');
+                            ?>
+                            <select id="procedimento_id" name="procedimento_id[]" multiple required>
+                                <option disabled></option>
+                                <?
+                                if($Procedimento->rowCount() > 0){
+                                    foreach ($Procedimento->results(false) as $item)
+                                        echo "<option value='{$item->getProcedimentoId()}'>{$item->getProcedimentoNome()}</option>";
+                                }
+                                ?>
+                            </select>
+                            <label for="procedimento_id" data-error="Selecione ao menos um procedimento"></label>
+                        </div>
+                        <div class="input-field  col m12 s12">
+                            <input  name="prestador_buscar" id="prestador_buscar" type="text" class="validate">
+                            <label  for="prestador_buscar">Como deseja ser encontrado? (Laboratório, nome, etc)</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row separador-sessoes">
+                <div class="col m1 push-m2 s12 center-on-small-only  right-align">
+                    <img src="<?=parent::$imagePath.'mark_num4.png';?>" alt="">
+                </div>
+                <div class="col m7 offset-m2 s12 ">
+                    <div class="row">
+                        <div class="col m12 s12 center-on-small-only">
+                            <div class="title">
+                                <h2>Dados de Localidade</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="row">
+                            <div class="input-field col m3 s12">
+                                <input name="endereco_cep" id="endereco_cep" type="text" class="validate" minlength="9" required>
+                                <label for="endereco_cep" data-error="Informe um cep válido.">CEP</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col m10 s6">
+                                <input name="endereco_logradouro" id="endereco_logradouro" type="text" class="validate" readonly>
+                                <label for="endereco_logradouro">Endereço</label>
+                            </div>
+                            <div class="input-field col m2 s6">
+                                <input name="pretador_numero" id="pretador_numero" type="text" class="validate" >
+                                <label for="pretador_numero">Nº</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col m12 s12">
+                                <input name="pretador_complemento" id="pretador_complemento" type="text" class="validate" />
+                                <label for="pretador_complemento">Complemento</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col m5 s12">
+                                <input type="text" name="endereco_bairro_nome" id="endereco_bairro_nome" readonly />
+                                <label for="endereco_bairro_nome">Bairro</label>
+                            </div>
+                            <div class="input-field col m5 s12">
+                                <input type="text" name="endereco_cidade_nome" id="endereco_cidade_nome" readonly />
+                                <label for="endereco_cidade_nome">Cidade</label>
+                            </div>
+                            <div class="input-field col m2 s12">
+                                <input type="text" name="endereco_estado_sigla" id="endereco_estado_sigla" readonly />
+                                <label for="endereco_estado_sigla">UF</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col m6 s12">
+                                <input name="prestador_telefone1" id="prestador_telefone1" type="text" class="validate" required />
+                                <label for="prestador_telefone1">Telefone</label>
+                            </div>
+                            <div class="input-field col m6 s12">
+                                <input name="prestador_telefone2" id="prestador_telefone2" type="text" class="validate" />
+                                <label for="prestador_telefone2">Telefone 2</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col m12 s12">
+                                <input name="prestador_site" id="prestador_site" type="url" class="validate" />
+                                <label for="prestador_site" data-error="Informe uma url válida. (não esqueça do http:// ou https://)">Site</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row separador-sessoes">
+                <div class="col m1 push-m2 s12 center-on-small-only  right-align">
+                    <img src="<?=parent::$imagePath.'mark_num5.png';?>" alt="">
+                </div>
+                <div class="col m7 offset-m2 s12  ">
+                    <div class="row">
+                        <div class="col m12 s12 center-on-small-only">
+                            <div class="title">
+                                <h2>Final</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m12 s12">
+                            <textarea id="prestador_mensagem" name="prestador_mensagem" class="materialize-textarea"></textarea>
+                            <label for="prestador_mensagem">Mensagem</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row separador-sessoes">
+                <div class="col m8 offset-m2 s12">
+                    <div class="row">
+                        <div class="input-field col m12 s12 center-on-small-only">
+                            <input class="filled-in" name="prestador_recebernews" value="1" type="checkbox" id="prestador_recebernews" />
+                            <label for="prestador_recebernews" >Gostaria de receber ofertas e novidade por e-mail.</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col m12 s12 center-on-small-only">
+                            <input class="filled-in" name="aceite" type="checkbox" value="1" id="aceite" required />
+                            <label for="aceite" data-error="Você precisar ler os termos e aceita-lo antes de continuar.">Li e aceito os termos de serviço</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row separador-sessoes">
+                <div class="col m8 offset-m2 s12 ">
+                    <div class="row">
+                        <div class="col offset-m1 m8 s12 msg_error pink lighten-2" style="display: none; padding: 15px;"></div>
+                        <div class="submit_btn_div col s12 center-on-small-only">
+                            <div class="box_btn">
+                                <button type="submit" class="btn_cadastro">Enviar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div id="loader">
+        <div class="valign-wrapper">
+            <div class="valign">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

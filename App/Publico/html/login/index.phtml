@@ -1,0 +1,76 @@
+<?php
+/**
+ * Created by Grupo B+M
+ * User: Esdras Castro
+ * Date: 17/08/2016
+ */
+$time = time();
+?>
+<main class="valign-wrapper">
+    <div class="container brown-text">
+        <div class="row valign">
+            <div class="col m12 s6 offset-s3 center-align" style="margin-bottom: 15px;">
+                <a href="<?=self::$basePath;?>" title="Clique aqui para voltar para o site"><img class="responsive-img" src="<?=self::$basePath.'images/logoColor.png';?>" alt="<?=SITENOME;?>"></a>
+            </div>
+            <div class="col s12 m6 offset-m3 l4 offset-l4">
+                <form name="loginsistema" action="<?=self::$basePath.'login/auth/'.(\Lib\Hash::rescue_key_generate($time));?>" data-redirect="<?=self::$basePath.'/';?>" method="post" autocomplete="off">
+                    <input type="hidden" name="login[time]" value="<?=$time;?>">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title"><i class="material-icons prefix">lock</i> Área Restrita</span>
+                            <div class="row hide alert-message">
+                                <div class="col s12 center-align">
+                                    <div style="padding: 10px 0 5px 0;" class="help-message grey lighten-3 black-text">
+                                        <i class="material-icons prefix" style="padding: 0;">error_outline</i> <span style="display: inline-block;vertical-align: super;">Login ou senha inválido.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 0;">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">account_circle</i>
+                                    <input id="username" name="login[username]" type="text" class="validate" required>
+                                    <label for="username" data-error="Informe o nome do usuário">Nome de Usuário</label>
+                                </div>
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">vpn_key</i>
+                                    <input id="password" name="login[password]" type="password" class="validate" required>
+                                    <label for="password" data-error="Digite a sua senha">Senha</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <div class="row" style="margin-bottom: 0;">
+                                <div class="col s6 activator hide" style="cursor: pointer;">
+                                    <i class="material-icons left">swap_horiz</i> Recuperar senha
+                                </div>
+                                <div class="col s6 right-align">
+                                    <button type="submit" name="login[logar]" value="true" class="waves-effect waves-light btn green"><i class="material-icons left">done</i> Entrar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-reveal">
+                            <div class="card-title grey-text text-darken-4">Recuperar Senha<i class="material-icons right">close</i></div>
+                            <p>
+                                Digite o seu email para enviaremos um email com o link de redefinição de senha para o contato.
+                            </p>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">mail</i>
+                                    <input id="email" name="login[email]" type="email" class="validate">
+                                    <label for="email" data-error="Informe o nome do usuário">Email</label>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                            <br>
+                            <div class="row" style="margin-bottom: 0;">
+                                <div class="col s12 center-align">
+                                    <button type="submit" name="login[recuperar]" value="true" class="waves-effect waves-light btn green"><i class="material-icons right">send</i> Enviar link de redefinição</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
