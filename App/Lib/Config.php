@@ -38,7 +38,8 @@ class Config
     protected static $basePath = '';
     protected static $menudesktop = [];
     protected static $menumobile = [];
-    protected static $privilegio = '';
+    protected static $privilegio = [];
+    protected static $usersPrivilege = '';
     protected static $breadcrumb = [];
     protected static $showBreadcrumb = true;
     protected static $dsn = '';
@@ -71,6 +72,16 @@ class Config
 
         // Faz a conexão com o banco de dados
         \Lib\Connection::connect(self::$dsn, self::$userdb, self::$passdb);
+    }
+
+    protected function setUserPrivilege($userPrivilege='')
+    {
+        if(!empty($userPrivilege) and in_array($userPrivilege, self::$privilegeAllowed)) self::$usersPrivilege = $userPrivilege;
+    }
+
+    protected function userHasPrivilege()
+    {
+        return in_array(self::$usersPrivilege, self::$privilegio);
     }
 
     protected function setPrivilege($privilege='')
