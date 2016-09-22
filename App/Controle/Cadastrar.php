@@ -8,6 +8,7 @@
 namespace Controle;
 
 use Lib\Sistema;
+use Lib\Tools\MailSender;
 use Modelo\Endereco\Cep;
 use Modelo\Prestador\Prestador;
 use Modelo\Prestador\PrestadorEspecialidade;
@@ -38,11 +39,80 @@ class Cadastrar extends Sistema
     public function sucesso($fkey='', $uid=0)
     {
         if(parent::siteRequest($fkey, 'cadastrar_prestador_sucesso') and $uid > 0) {
-            parent::header('Sucesso!');
-            require_once(self::$htmlPath . "cadastro/sucesso.phtml");
-            parent::footer();
+            $Users = new Users();
+            $Users->pegar('users_id=:uid', array(':uid'=>$uid));
+
+            if($Users->rowCount()) {
+                if (self::sendLinkAtivacao($Users)) {
+                    parent::header('Prestador Cadastrado!');
+                    require_once(self::$htmlPath . "cadastro/sucesso.phtml");
+                    parent::footer();
+                } else {
+                    new Error(601);
+                }
+            }else{
+                new Error(404);
+            }
         }else{
             new Error(404);
+        }
+    }
+
+    /**
+     * Envia um link de ativacao para o usuário informado
+     *
+     * @param Users|null $Users
+     * @return bool
+     */
+    private function sendLinkAtivacao(Users $Users=null)
+    {
+        $mensagem = "";
+        $code = \Lib\Tools\Hash::rescue_key_generate($Users->results()->getUsersUsername()) . "/" .$Users->results()->getUsersId();
+        /*echo $code;*/
+        require_once (self::$htmlPath . "cadastro/template.linkativacao.phtml");
+        $MailSender = new MailSender();
+        $MailSender
+            ->addFrom("contato@acheimed.com.br")
+            ->addTo($Users->results()->getUsersName(), $Users->results()->getUsersUsername())
+            ->addBcc("esdras-tito@hotmail.com")
+            ->subject("Ative seu cadastro Acheimed")
+            ->message($mensagem)
+            ->send()
+        ;
+        if($MailSender->status()){
+            return true;
+        }else{
+            new Error(601);
+            /*die($MailSender->getMessage());*/
+        }
+    }
+
+    public function ativarCadastro($key='', $uid=0)
+    {
+        $key = filter_var($key, FILTER_SANITIZE_STRING);
+        $uid = filter_var($uid, FILTER_SANITIZE_NUMBER_INT);
+
+        if(empty($key) and $uid <= 0) {
+            // Parametros incompletos
+        }else{
+            $Users = new Users();
+            $Users->pegar('users_id=:uid', array(':uid'=>$uid));
+
+            parent::header('Ativação de cadastro');
+            if($Users->rowCount() and $key==\Lib\Tools\Hash::rescue_key_generate($Users->results()->getUsersUsername())){
+                if($Users->results()->publicar()) require_once (parent::$htmlPath."cadastro/ativado.phtml");
+                else {
+                    $error = $Users->getErrorInfo();
+                    if(!empty($error) and (int)$error[0] > 0){
+                        new Error(404);
+                    }else{
+                        require_once (parent::$htmlPath."cadastro/jaativado.phtml");
+                    }
+                }
+            }else{
+                require_once (parent::$htmlPath."cadastro/naoativado.phtml");
+            }
+            parent::footer();
         }
     }
 
@@ -53,18 +123,21 @@ class Cadastrar extends Sistema
      */
     public function buscarcep($cep='')
     {
-        $Cep = new Cep();
-        $Cep->buscar($cep);
-        if($Cep->rowCount()){
-            echo json_encode(array('status'=>200, 'error'=>false, 'message'=>'Cep encontrado', 'data'=>array(
-                'endereco_cep'=>$Cep->results()->getEnderecoCep(),
-                'endereco_logradouro'=>$Cep->results()->getEnderecoLogradouro(),
-                'endereco_bairro_nome'=>$Cep->results()->getBairroNome(),
-                'endereco_cidade_nome'=>$Cep->results()->getCidadeNome(),
-                'endereco_estado_sigla'=>$Cep->results()->getEstadoSigla()
-            )));
+        if(\Lib\Tools\Route::isSiteRequest()) {
+            $Cep = new Cep();
+            $Cep->buscar($cep);
+            if ($Cep->rowCount()) {
+                echo json_encode(array('status' => 200, 'error' => false, 'message' => 'Cep encontrado', 'data' => array(
+                    'endereco_cep' => $Cep->results()->getEnderecoCep(),
+                    'endereco_logradouro' => $Cep->results()->getEnderecoLogradouro(),
+                    'endereco_bairro_nome' => $Cep->results()->getBairroNome(),
+                    'endereco_cidade_nome' => $Cep->results()->getCidadeNome(),
+                    'endereco_estado_sigla' => $Cep->results()->getEstadoSigla()
+                )));
+            } else echo json_encode(array('status' => 200, 'error' => true, 'message' => 'Cep inválido!'));
+        }else{
+            header("HTTP/1.1 404 Page not found!");
         }
-        else echo json_encode(array('status'=>200, 'error'=>true, 'message'=>'Cep inválido!'));
     }
 
     /**
@@ -170,19 +243,37 @@ class Cadastrar extends Sistema
      */
     private function validarCadastro(array $post=array())
     {
-        $return = array('status'=>true, 'error'=>true, 'message'=>'Por favor, verifique os campos em vermelho.', 'fields'=>array(), 'errorInfo'=>array());
+        $return = array('status'=>true, 'error'=>true, 'message'=>"Por favor, verifique os campos em vermelho.", 'fields'=>array(), 'errorInfo'=>array());
         if(empty($post)) {
             $return['message'] = "Nenhum dado foi enviado";
         }else{
-            if(empty($post['prestadortipo_id'])){ array_push($return['fields'], 'prestadortipo_id');}
-            if(empty($post['users_password'])){ array_push($return['fields'], 'users_password');}
-            if(empty($post['prestador_nome'])){ array_push($return['fields'], 'prestador_nome');}
-            if(empty($post['especialidade_id'])){ array_push($return['fields'], 'especialidade_id[]');}
-            if(empty($post['exame_categoria_id'])){ array_push($return['fields'], 'exame_categoria_id[]');}
-            if(empty($post['procedimento_id'])){ array_push($return['fields'], 'procedimento_id[]');}
-            if(empty($post['endereco_cep'])){ array_push($return['fields'], 'endereco_cep');}
-            if(empty($post['prestador_telefone1'])){ array_push($return['fields'], 'prestador_telefone1');}
-            if(empty($post['aceite'])){ array_push($return['fields'], 'aceite');}
+            if(empty($post['prestadortipo_id'])){
+                array_push($return['fields'], array('name'=>'prestadortipo_id', 'message'=>'Selecione um tipo de prestador.'));
+            }
+            if(empty($post['users_password'])){
+                array_push($return['fields'], array('name'=>'users_password', 'message'=>'Informe uma senha.'));
+            }
+            if(empty($post['prestador_nome'])){
+                array_push($return['fields'], array('name'=>'prestador_nome', 'message'=>'Informe um nome ou razão social.'));
+            }
+            if(empty($post['prestador_telefone1'])){
+                array_push($return['fields'], array('name'=>'prestador_telefone1', 'message'=>'Informe um número de telefone.'));
+            }
+            if(empty($post['aceite'])){
+                array_push($return['fields'], array('name'=>'aceite', 'message'=>'Leia e aceite os termos para continuar.'));
+            }
+
+            /* Verifica se o CEP foi preenchido e se ele existe */
+            $post['endereco_cep'] = isset($post['endereco_cep'])?filter_var($post['endereco_cep'], FILTER_SANITIZE_STRING):"";
+            if(!empty($post['endereco_cep'])){
+                $Cep = new Cep();
+                $Cep->buscar($post['endereco_cep']);
+                if($Cep->rowCount() == 0){
+                    array_push($return['fields'], array('name'=>'endereco_cep', 'message'=>'Informe um cep válido.'));
+                }
+            }else{
+                array_push($return['fields'], array('name'=>'endereco_cep', 'message'=>'Informe um cep válido.'));
+            }
 
             /* Verifica se o email foi preenchido corretamente e se não existe um usuário com esse email */
             $post['users_username'] = isset($post['users_username'])?filter_var($post['users_username'], FILTER_SANITIZE_EMAIL):"";
@@ -190,12 +281,10 @@ class Cadastrar extends Sistema
                 $Users = new Users();
                 $Users->pegar('users_username=:uname', array(':uname'=>$post['users_username']));
                 if($Users->rowCount()) {
-                    array_push($return['fields'], 'users_username');
-                    $return['message'] .= "Já existe um usuário com o email informado.<br>";
+                    array_push($return['fields'], array('name'=>'users_username', 'message'=>'Já existe um usuário com o email informado.'));
                 }
             }else{
-                array_push($return['fields'], 'users_username');
-                $return['message'] .= "Informe um email válido.<br>";
+                array_push($return['fields'], array('name'=>'users_username', 'message'=>'Informe um email válido.'));
             }
 
             /* Verifica se o cnpj ou cpf foi preenchido corretamente e se não existe um usuário com esse cnpj ou cpf */
@@ -207,29 +296,24 @@ class Cadastrar extends Sistema
                     if(parent::validaCpf($post['prestador_cpf_cnpj'])){
                         $Prestador->pegar('prestador_cpf=:cpf', array(':cpf'=>$post['prestador_cpf_cnpj']));
                         if($Prestador->rowCount()) {
-                            array_push($return['fields'], 'prestador_cpf_cnpj');
-                            $return['message'] .= "Já existe um usuário com esse número de CPF.<br>";
+                            array_push($return['fields'], array('name'=>'prestador_cpf_cnpj', 'message'=>'Já existe um usuário com esse CPF.'));
                         }
                     }else{
-                        array_push($return['fields'], 'prestador_cpf_cnpj');
-                        $return['message'] .= "Informe um CPF válido.<br>";
+                        array_push($return['fields'], array('name'=>'prestador_cpf_cnpj', 'message'=>'Informe um CPF válido.'));
                     }
                 }else{
                     /* CNPJ */
                     if(parent::validaCnpj($post['prestador_cpf_cnpj'])){
                         $Prestador->pegar('prestador_cnpj=:cnpj', array(':cnpj'=>$post['prestador_cpf_cnpj']));
                         if($Prestador->rowCount()) {
-                            array_push($return['fields'], 'prestador_cpf_cnpj');
-                            $return['message'] .= "Já existe uma empresa com esse CPNJ cadastrado em nosso sistema.<br>";
+                            array_push($return['fields'], array('name'=>'prestador_cpf_cnpj', 'message'=>'Já existe uma empresa com esse CPNJ cadastrado em nosso sistema.'));
                         }
                     }else{
-                        array_push($return['fields'], 'prestador_cpf_cnpj');
-                        $return['message'] .= "Informe um CNPJ válido.<br>";
+                        array_push($return['fields'], array('name'=>'prestador_cpf_cnpj', 'message'=>'Informe um CNPJ válido.'));
                     }
                 }
             }else{
-                array_push($return['fields'], 'prestador_cpf_cnpj');
-                $return['message'] .= "Informe um CPF ou CNPJ válido.<br>";
+                array_push($return['fields'], array('name'=>'prestador_cpf_cnpj', 'message'=>'Informe um CPF ou CNPJ válido.'));
             }
 
 
@@ -248,7 +332,7 @@ class Cadastrar extends Sistema
      *
      * @return bool
      */
-    public static function hasAuth()
+    protected static function hasAuth()
     {
         return self::$authenticated;
     }
