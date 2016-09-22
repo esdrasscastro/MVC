@@ -268,7 +268,7 @@ class MailSender
      * @param string $variableName
      * @return string
      */
-    public function preparingEmail($variableName='')
+    protected function preparingEmail($variableName='')
     {
         if(!empty($variableName) and property_exists($this, $variableName)){
             if(self::hasEmail($this->$variableName)){
