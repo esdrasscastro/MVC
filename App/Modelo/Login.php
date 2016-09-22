@@ -9,23 +9,27 @@ namespace Modelo;
 
 class Login extends Users
 {
-    public function resetAttempts($username)
+    public function __construct($username)
     {
-        $Users = parent::pegar('users_username=:uname', array(':uname'=>$username),'','*',1);
-        if($Users->rowCount()){
-            return $Users->results()->setUsersAttempts(5)->editar();
-        }
+        parent::__construct();
+        parent::pegar('users_username=:uname', array(':uname'=>$username));
+    }
+
+    public function resetAttempts()
+    {
+        if(parent::rowCount())
+            return parent::results()->setUsersAttempts(5)->editar();
 
         return false;
     }
 
-    public function subtractAttempts($username)
+    public function subtractAttempts()
     {
-        $Users = parent::pegar('users_username=:uname', array(':uname'=>$username),'','*',1);
-        if($Users->rowCount()){
-            $Users = $Users->results();
-            return $Users->setUsersAttempts($Users->getUsersAttempts()-1)->editar();
-        }
+        if(parent::rowCount())
+            if(parent::results()->getUsersAttempts() > 1)
+                return parent::results()->setUsersAttempts(parent::results()->getUsersAttempts()-1)->atualizarTentativas();
+            else if(parent::results()->getUsersAttempts() == 1)
+                return parent::results()->setUsersAttempts(0)->atualizarTentativas();
 
         return false;
     }
