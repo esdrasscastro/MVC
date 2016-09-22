@@ -177,7 +177,6 @@ class Cadastrar extends Sistema
             if(empty($post['prestadortipo_id'])){ array_push($return['fields'], 'prestadortipo_id');}
             if(empty($post['users_password'])){ array_push($return['fields'], 'users_password');}
             if(empty($post['prestador_nome'])){ array_push($return['fields'], 'prestador_nome');}
-            if(empty($post[''])){ array_push($return['fields'], 'prestador_cpf_cnpj');}
             if(empty($post['especialidade_id'])){ array_push($return['fields'], 'especialidade_id[]');}
             if(empty($post['exame_categoria_id'])){ array_push($return['fields'], 'exame_categoria_id[]');}
             if(empty($post['procedimento_id'])){ array_push($return['fields'], 'procedimento_id[]');}
@@ -205,19 +204,32 @@ class Cadastrar extends Sistema
                 $Prestador = new Prestador();
                 if($post['radio_cpf_cnpj']==1){
                     /* CPF */
-                    $Prestador->pegar('prestador_cpf=:cpf', array(':cpf'=>$post['prestador_cpf_cnpj']));
+                    if(parent::validaCpf($post['prestador_cpf_cnpj'])){
+                        $Prestador->pegar('prestador_cpf=:cpf', array(':cpf'=>$post['prestador_cpf_cnpj']));
+                        if($Prestador->rowCount()) {
+                            array_push($return['fields'], 'prestador_cpf_cnpj');
+                            $return['message'] .= "Já existe um usuário com esse número de CPF.<br>";
+                        }
+                    }else{
+                        array_push($return['fields'], 'prestador_cpf_cnpj');
+                        $return['message'] .= "Informe um CPF válido.<br>";
+                    }
                 }else{
                     /* CNPJ */
-                    $Prestador->pegar('prestador_cnpj=:cnpj', array(':cnpj'=>$post['prestador_cpf_cnpj']));
-                }
-
-                if($Prestador->rowCount()) {
-                    array_push($return['fields'], 'users_username');
-                    $return['message'] .= "Já existe um usuário com o email informado.<br>";
+                    if(parent::validaCnpj($post['prestador_cpf_cnpj'])){
+                        $Prestador->pegar('prestador_cnpj=:cnpj', array(':cnpj'=>$post['prestador_cpf_cnpj']));
+                        if($Prestador->rowCount()) {
+                            array_push($return['fields'], 'prestador_cpf_cnpj');
+                            $return['message'] .= "Já existe uma empresa com esse CPNJ cadastrado em nosso sistema.<br>";
+                        }
+                    }else{
+                        array_push($return['fields'], 'prestador_cpf_cnpj');
+                        $return['message'] .= "Informe um CNPJ válido.<br>";
+                    }
                 }
             }else{
-                array_push($return['fields'], 'users_username');
-                $return['message'] .= "Informe um email válido.<br>";
+                array_push($return['fields'], 'prestador_cpf_cnpj');
+                $return['message'] .= "Informe um CPF ou CNPJ válido.<br>";
             }
 
 
