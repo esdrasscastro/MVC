@@ -199,8 +199,25 @@ var Cadastrar = {
                             btnsubmit.prop('disabled', true).text('Enviando aguarde...');
                         },
                         success : function(response) {
-                            Loader.hide();
-                            btnsubmit.prop('disabled', false).text('Enviar');
+                            if(!response.error){
+                                btnsubmit.prop('disabled', false).text('Redirecionando...');
+                                location.href = form.data('success-page') + '/' + response.uid;
+                            }else{
+                                Loader.hide();
+                                btnsubmit.prop('disabled', false).text('Enviar');
+                                if(response.fields.length > 0){
+                                    for(i=0;i<response.fields.length;i++){
+                                        var item = $('#' + response.fields[i].name);
+                                        item.removeClass('valid').addClass('invalid');
+                                        item.closest('.input-field').find('label').attr('data-error', response.fields[i].message);
+                                    }
+
+                                    $('.submit_btn_div').addClass('m2');
+                                    $('.msg_error').fadeIn().html(response.message);
+                                }else{
+                                    Materialize.toast(response.message);
+                                }
+                            }
 
                             console.log(response);
                         },
