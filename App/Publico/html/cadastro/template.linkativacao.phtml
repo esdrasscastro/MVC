@@ -1,0 +1,50 @@
+<?php
+/**
+ * Created by Grupo B+M
+ * User: Esdras Castro
+ * Date: 22/09/2016
+ */
+
+$linkativacao = parent::$basePath."cadastrar/ativarcadastro/".$code;
+
+$mensagem = "
+            <div style='background-color: #eaeaea;padding: 20px; font-family:\"Open Sans\", Verdana, sans-serif'>
+                <center>
+                    <div style='padding:20px; background-color: white; width: 540px; border:1px solid #cccccc; margin:0 auto;'>
+                        <div style='background-color: #223c54; padding: 15px; text-align: center;'>
+                            <a href='".parent::$basePath."' target='_blank'>
+                                <img src='".parent::$imagePath."logo.png' border='0'>
+                            </a>
+                        </div>
+                        <div style='background-color:#eaeaea;height:1px;'></div>
+                        <div class='content' style='color:#8b8b8b;'>
+                            <h1>Parabéns!</h1>
+                            <p>
+                                <font size='+2'>
+                                Seu cadastro foi realizado com sucesso.
+                                </font>
+                                <br>
+                                <font size='2'>
+                                Ative o seu cadastro para ter acesso ao seu painel.
+                                </font>
+                            </p>
+                            <br>
+                            <p>
+                                <a href='{$linkativacao}' target='_blank' style='padding:15px; border: 1px solid #11947e;border-bottom-width: 7px;background-color: #00bf9e; color:white; text-decoration:none; border-radius:5px;-moz-border-radius: 5px;-webkit-border-radius:5px;box-shadow:2px 3px 10px -3px #000000;'><strong>ATIVAR MINHA CONTA AGORA</strong></a>
+                            </p>
+                            <br>
+                            <font size='2'>
+                            Você também pode copiar e colar o link abaixo na sua barra de endereços.<br>
+                            </font>
+                            <font size='1'>{$linkativacao}</font>
+                        </div>
+                        <br>
+                        <div class='footer'>
+                            <font size='-2' color='#999999'>
+                                &copy; 2016 Acheimed.com.br
+                            </font>
+                        </div>
+                    </div>
+                </center>
+            </div>
+        ";
