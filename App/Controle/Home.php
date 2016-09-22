@@ -11,27 +11,15 @@ use Lib\Sistema;
 
 class Home extends Sistema
 {
-    public static $authenticated = false;
-
     public function index()
     {
-        //self::myPrivilege();
-
-        self::header('Home');
+        self::header('Acheimed');
         require_once(self::$htmlPath."home/index.phtml");
         self::footer();
     }
 
     public static function hasAuth()
     {
-        return self::$authenticated;
+        return false;
     }
-
-//    private function myPrivilege()
-//    {
-//        if(parent::$privilegio != 'administrator'){
-//            new Error(505);
-//            exit;
-//        }
-//    }
 }
