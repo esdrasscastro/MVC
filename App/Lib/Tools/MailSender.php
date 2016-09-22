@@ -27,7 +27,7 @@ class MailSender
     private $status;
 
     function __construct(){
-        array_push($this->domainsAllowed, 'tempsite.ws', 'locaweb.com.br','hospedagemdesites.ws','websiteseguro.com');
+        array_push($this->domainsAllowed, 'tempsite.ws', 'locaweb.com.br','hospedagemdesites.ws','websiteseguro.com', 'acheimed.com.br');
         array_push($this->priorityAllowed, 1,3,5);
         $this->errormsg = '';
         $this->priority = 3;
