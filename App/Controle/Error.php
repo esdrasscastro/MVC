@@ -30,7 +30,7 @@ class Error extends Sistema
 
     public function error601()
     {
-        self::header('Sem conexão com a internet');
+        self::header('Erro de envio');
         require_once parent::$errorPath.'601.phtml';
         self::footer();
     }
