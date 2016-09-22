@@ -26,6 +26,8 @@ class Users extends DbModelo
     private $users_privilege;
     /** @var  string */
     private $users_last_login;
+    /** @var  string */
+    private $users_changes_time;
     /** @var  boolean */
     private $users_publico;
 
@@ -57,13 +59,18 @@ class Users extends DbModelo
         $dados['users_name'] = $this->getUsersName();
         $dados['users_password'] = $this->getUsersPassword();
         $dados['users_hash'] = $this->getUsersHash();
-        $dados['users_attempts'] = $this->getUsersAttempts();
+        $dados['users_attempts'] = ($this->getUsersAttempts()>0)?$this->getUsersAttempts():'00';
         $dados['users_privilege'] = $this->getUsersPrivilege();
         $dados['users_last_login'] = $this->getUsersLastLogin();
         $dados['users_publico'] = $this->getUsersPublico();
         $dados = array_filter($dados);
 
         return parent::alterar($dados, 'users_id=:uid', array(':uid'=>$this->getUsersId()));
+    }
+
+    public function atualizarTentativas()
+    {
+        return parent::alterar(array('users_attempts'=>($this->getUsersAttempts()>0)?$this->getUsersAttempts():'00'), 'users_id=:uid', array(':uid'=>$this->getUsersId()));
     }
 
     public function deletar()
@@ -247,6 +254,26 @@ class Users extends DbModelo
         $this->users_publico = $users_publico;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getUsersChangesTime()
+    {
+        return $this->users_changes_time;
+    }
+
+    /**
+     * @param string $users_changes_time
+     * @return Users
+     */
+    public function setUsersChangesTime($users_changes_time)
+    {
+        $this->users_changes_time = $users_changes_time;
+        return $this;
+    }
+
+
 
 
 }
