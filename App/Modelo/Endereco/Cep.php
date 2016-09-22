@@ -182,7 +182,7 @@ class Cep extends Endereco
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         //curl_setopt($ch, CURLOPT_CONNECTTIMEOUT ,30); /* tempo em segundos */
-        //curl_setopt($ch, CURLOPT_TIMEOUT, 120); /* tempo em segundos (2 minutos) padrão */
+        curl_setopt($ch, CURLOPT_TIMEOUT, 120); /* tempo em segundos (2 minutos) padrão */
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
