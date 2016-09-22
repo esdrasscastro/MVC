@@ -24,9 +24,26 @@ class Cadastrar extends Sistema
         //self::myPrivilege();
         parent::setJsScript("Cadastrar.init();");
         parent::setJsScript("Global.vars.basePath = '".self::$basePath."';");
-        parent::header('Home');
+        parent::header('Cadastro de Prestador');
         require_once(self::$htmlPath."cadastro/index.phtml");
         parent::footer();
+    }
+
+    /**
+     * Carrega a página de sucesso de cadastro e envia email de ativação para o cliente.
+     *
+     * @param string $fkey
+     * @param int $uid
+     */
+    public function sucesso($fkey='', $uid=0)
+    {
+        if(parent::siteRequest($fkey, 'cadastrar_prestador_sucesso') and $uid > 0) {
+            parent::header('Sucesso!');
+            require_once(self::$htmlPath . "cadastro/sucesso.phtml");
+            parent::footer();
+        }else{
+            new Error(404);
+        }
     }
 
     /**
@@ -50,6 +67,11 @@ class Cadastrar extends Sistema
         else echo json_encode(array('status'=>200, 'error'=>true, 'message'=>'Cep inválido!'));
     }
 
+    /**
+     * Realiza o cadastro do prestador no banco
+     *
+     * @param string $fkey
+     */
     public function fazerCadastro($fkey='')
     {
         if(parent::siteRequest($fkey, 'cadastrar_prestador')) {
@@ -121,20 +143,20 @@ class Cadastrar extends Sistema
                             ;
 
                         $Users->commit();
-                        echo json_encode(array('status'=>true, 'error'=>false, 'message'=>'Usuário adicionado com sucesso!', 'fields'=>array(), 'errorInfo'=>$Users->getErrorInfo()));
+                        echo json_encode(array('status'=>true, 'error'=>false, 'message'=>'Usuário adicionado com sucesso!', 'fields'=>array(), 'errorInfo'=>$Users->getErrorInfo(), 'uid'=>$userid));
                     }else{
                         $Users->rollBack();
-                        echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'Falha ao tentar adicionar o usuário', 'fields'=>array(), 'errorInfo'=>$Users->getErrorInfo()));
+                        echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'Falha ao tentar adicionar o usuário', 'fields'=>array(), 'errorInfo'=>$Users->getErrorInfo(), 'uid'=>0));
                     }
                 }else{
                     $Users->rollBack();
-                    echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'Falha ao tentar adicionar o usuário', 'fields'=>array(), 'errorInfo'=>$Users->getErrorInfo()));
+                    echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'Falha ao tentar adicionar o usuário', 'fields'=>array(), 'errorInfo'=>$Users->getErrorInfo(), 'uid'=>0));
                 }
             } else {
                 echo json_encode($validate);
             }
         }else{
-            echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'Essa página expirou, atualize a página e tente novamente.', 'fields'=>array(), 'errorInfo'=>array()));
+            echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'Essa página expirou, atualize a página e tente novamente.', 'fields'=>array(), 'errorInfo'=>array(), 'uid'=>0));
         }
     }
 
@@ -153,16 +175,51 @@ class Cadastrar extends Sistema
             $return['message'] = "Nenhum dado foi enviado";
         }else{
             if(empty($post['prestadortipo_id'])){ array_push($return['fields'], 'prestadortipo_id');}
-            if(empty($post['users_username'])){ array_push($return['fields'], 'users_username');}
             if(empty($post['users_password'])){ array_push($return['fields'], 'users_password');}
             if(empty($post['prestador_nome'])){ array_push($return['fields'], 'prestador_nome');}
-            if(empty($post['prestador_cpf_cnpj'])){ array_push($return['fields'], 'prestador_cpf_cnpj');}
+            if(empty($post[''])){ array_push($return['fields'], 'prestador_cpf_cnpj');}
             if(empty($post['especialidade_id'])){ array_push($return['fields'], 'especialidade_id[]');}
             if(empty($post['exame_categoria_id'])){ array_push($return['fields'], 'exame_categoria_id[]');}
             if(empty($post['procedimento_id'])){ array_push($return['fields'], 'procedimento_id[]');}
             if(empty($post['endereco_cep'])){ array_push($return['fields'], 'endereco_cep');}
             if(empty($post['prestador_telefone1'])){ array_push($return['fields'], 'prestador_telefone1');}
             if(empty($post['aceite'])){ array_push($return['fields'], 'aceite');}
+
+            /* Verifica se o email foi preenchido corretamente e se não existe um usuário com esse email */
+            $post['users_username'] = isset($post['users_username'])?filter_var($post['users_username'], FILTER_SANITIZE_EMAIL):"";
+            if(!empty($post['users_username'])){
+                $Users = new Users();
+                $Users->pegar('users_username=:uname', array(':uname'=>$post['users_username']));
+                if($Users->rowCount()) {
+                    array_push($return['fields'], 'users_username');
+                    $return['message'] .= "Já existe um usuário com o email informado.<br>";
+                }
+            }else{
+                array_push($return['fields'], 'users_username');
+                $return['message'] .= "Informe um email válido.<br>";
+            }
+
+            /* Verifica se o cnpj ou cpf foi preenchido corretamente e se não existe um usuário com esse cnpj ou cpf */
+            $post['prestador_cpf_cnpj'] = isset($post['prestador_cpf_cnpj'])?filter_var($post['prestador_cpf_cnpj'], FILTER_SANITIZE_STRING):"";
+            if(!empty($post['prestador_cpf_cnpj']) and isset($post['radio_cpf_cnpj'])){
+                $Prestador = new Prestador();
+                if($post['radio_cpf_cnpj']==1){
+                    /* CPF */
+                    $Prestador->pegar('prestador_cpf=:cpf', array(':cpf'=>$post['prestador_cpf_cnpj']));
+                }else{
+                    /* CNPJ */
+                    $Prestador->pegar('prestador_cnpj=:cnpj', array(':cnpj'=>$post['prestador_cpf_cnpj']));
+                }
+
+                if($Prestador->rowCount()) {
+                    array_push($return['fields'], 'users_username');
+                    $return['message'] .= "Já existe um usuário com o email informado.<br>";
+                }
+            }else{
+                array_push($return['fields'], 'users_username');
+                $return['message'] .= "Informe um email válido.<br>";
+            }
+
 
             if(count($return['fields']) == 0){
                 $return['status'] = true;
