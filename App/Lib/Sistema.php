@@ -10,6 +10,7 @@ namespace Lib;
 use BadFunctionCallException;
 use Controle\Error;
 use Controle\Login;
+use Lib\Tools\Session;
 
 class Sistema extends Config
 {
@@ -26,7 +27,10 @@ class Sistema extends Config
             if (class_exists($class)) {
                 /* Verifica se a página precisa ser altenticada */
                 if($class::hasAuth()){
-                    self::auth();
+                    if(self::auth()){
+                        self::setBreadcrumb(parent::$basePath.'/'.strtolower(self::$controller),self::$controller);
+                        call_user_func_array([$class, $this->method], $this->params);
+                    }
                 }else{
                     self::setBreadcrumb(parent::$basePath.'/'.strtolower(self::$controller),self::$controller);
                     call_user_func_array([$class, $this->method], $this->params);
@@ -51,18 +55,21 @@ class Sistema extends Config
     protected function auth()
     {
         $session = Session::get(Login::sessionName());
+
         if(isset($session['username'])) $username = $session['username'];
         else $username = '';
 
         if(parent::$controller!='Login'){
-            if(!\Controle\Login::logar($username,'',true)) {
+            if(empty($username) || !(bool)Login::logar($username,'',true)) {
                 self::redirect(parent::$basePath . 'login/');
-            }
+            }else return true;
         }else{
-            if(\Controle\Login::logar($username,'',true)) {
+            if(Login::logar($username,'',true)) {
                 self::redirect(parent::$absPath.'/');
             }
         }
+
+        return false;
     }
 
     /**
@@ -452,4 +459,27 @@ class Sistema extends Config
         return $cnpj{13} == ($resto < 2 ? 0 : 11 - $resto);
     }
 
+    /**
+     * Retorna o IP do usuário
+     *
+     * @return string
+     */
+    protected function getClientIp() {
+        $ipaddress = '';
+        if (getenv('HTTP_CLIENT_IP'))
+            $ipaddress = getenv('HTTP_CLIENT_IP');
+        else if(getenv('HTTP_X_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+        else if(getenv('HTTP_X_FORWARDED'))
+            $ipaddress = getenv('HTTP_X_FORWARDED');
+        else if(getenv('HTTP_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_FORWARDED_FOR');
+        else if(getenv('HTTP_FORWARDED'))
+            $ipaddress = getenv('HTTP_FORWARDED');
+        else if(getenv('REMOTE_ADDR'))
+            $ipaddress = getenv('REMOTE_ADDR');
+        else
+            $ipaddress = 'UNKNOWN';
+        return $ipaddress;
+    }
 }
