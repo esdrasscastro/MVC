@@ -10,7 +10,7 @@
         <h1>Cadastro dos Prestadores</h1>
     </div>
     <div class="container home-margin-top">
-        <form class="cadastro" action="<?=parent::$basePath.'cadastrar/fazerCadastro/'.\Lib\Tools\Hash::rescue_key_generate('cadastrar_prestador');?>" method="post" enctype="application/x-www-form-urlencoded" redirect="true" id="cadastro_prestadores" name="cadastro_novo_prestador">
+        <form class="cadastro" action="<?=parent::$basePath.'cadastrar/fazercadastro/'.\Lib\Tools\Hash::rescue_key_generate('cadastrar_prestador');?>" data-success-page="<?=parent::$basePath.'cadastrar/sucesso/'.\Lib\Tools\Hash::rescue_key_generate('cadastrar_prestador_sucesso');?>" method="post" enctype="application/x-www-form-urlencoded" redirect="true" id="cadastro_prestadores" name="cadastro_novo_prestador">
             <div class="row">
                 <div class="col m1 push-m2 s12 center-on-small-only right-align">
                     <img src="<?=parent::$imagePath.'mark_num1.png';?>" alt="">
