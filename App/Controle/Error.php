@@ -28,6 +28,13 @@ class Error extends Sistema
         self::footer();
     }
 
+    public function error601()
+    {
+        self::header('Sem conexão com a internet');
+        require_once parent::$errorPath.'601.phtml';
+        self::footer();
+    }
+
     public function error505()
     {
         self::header('Permissão negada!');
