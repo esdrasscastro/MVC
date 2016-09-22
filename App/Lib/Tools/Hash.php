@@ -80,6 +80,7 @@ class Hash extends \Lib\Config{
 	public static function rescue_key_generate($string=''){
         $custom = (!empty($string))?$string:uniqid(time());
         $qt = floor(strlen($custom)/4);
+        if($qt < 4) $qt=4;
 		/*return chunk_split(str_replace('=','',base64_encode(hash('sha256','rescue_key_generate'.md5(uniqid(time())).SECURITYCODE))), 4, '-');*/
 		return rtrim(chunk_split(hash('md5','rescue_key_generate'.md5($custom).parent::$securitycode), $qt, '-'),'-');
 	}
