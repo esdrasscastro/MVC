@@ -51,7 +51,19 @@ class Users extends DbModelo
 
     public function editar()
     {
-        // TODO: Implement editar() method.
+        $dados = array();
+        $dados['users_id'] = $this->getUsersId();
+        $dados['users_username'] = $this->getUsersUsername();
+        $dados['users_name'] = $this->getUsersName();
+        $dados['users_password'] = $this->getUsersPassword();
+        $dados['users_hash'] = $this->getUsersHash();
+        $dados['users_attempts'] = $this->getUsersAttempts();
+        $dados['users_privilege'] = $this->getUsersPrivilege();
+        $dados['users_last_login'] = $this->getUsersLastLogin();
+        $dados['users_publico'] = $this->getUsersPublico();
+        $dados = array_filter($dados);
+
+        return parent::alterar($dados, 'users_id=:uid', array(':uid'=>$this->getUsersId()));
     }
 
     public function deletar()
