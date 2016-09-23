@@ -28,7 +28,7 @@ var Login = {
             success : function (response) {
                 if(response.status > 0) {
                     Materialize.toast(response.message, 15000);
-                    location.href = form.data('redirect');
+                    location.href = response.redirect;/*form.data('redirect');*/
                 }else{
                     Materialize.toast(response.message, 15000);
                 }
