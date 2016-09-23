@@ -32,7 +32,7 @@ class Sistema extends Config
                         call_user_func_array([$class, $this->method], $this->params);
                     }else{
                         self::$showBreadcrumb = false;
-                        call_user_func_array(['Controle\\Error', 'error404'], []);
+                        call_user_func_array(['Controle\\Error', 'error505'], []);
                     }
                 }else{
                     self::setBreadcrumb(parent::$basePath.'/'.strtolower(self::$controller),self::$controller);
