@@ -19,8 +19,8 @@ class Painel extends Sistema
         self::myPrivilege();
         parent::setJsScript("Cadastrar.init();");
         parent::setJsScript("Global.vars.basePath = '".self::$basePath."';");
-        parent::header('Cadastro de Prestador');
-        require_once(self::$htmlPath."cadastro/index.phtml");
+        parent::header('Painel do Associado');
+        require_once(self::$painelPath."index.phtml");
         parent::footer();
     }
 

@@ -30,6 +30,9 @@ class Sistema extends Config
                     if(self::auth()){
                         self::setBreadcrumb(parent::$basePath.'/'.strtolower(self::$controller),self::$controller);
                         call_user_func_array([$class, $this->method], $this->params);
+                    }else{
+                        self::$showBreadcrumb = false;
+                        call_user_func_array(['Controle\\Error', 'error404'], []);
                     }
                 }else{
                     self::setBreadcrumb(parent::$basePath.'/'.strtolower(self::$controller),self::$controller);
@@ -65,7 +68,7 @@ class Sistema extends Config
             }else return true;
         }else{
             if(Login::logar($username,'',true)) {
-                self::redirect(parent::$absPath.'/');
+                self::redirect(parent::$absPath);
             }
         }
 
