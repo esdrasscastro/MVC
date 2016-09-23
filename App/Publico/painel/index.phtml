@@ -4,10 +4,10 @@
  * User: Esdras Castro
  * Date: 17/08/2016
  */
-//if(empty(parent::$privilegio)){
-//    parent::redirect(parent::$basePath.'/login');
-//    exit;
-//}
+if(property_exists(get_class() , 'authenticated') and !parent::$authenticated){
+    parent::redirect(parent::$basePath.'/login');
+    exit;
+}
 ?>
 <main>
     <div class="container">
