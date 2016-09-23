@@ -14,7 +14,7 @@ $time = time();
                 <a href="<?=parent::$basePath;?>" title="Clique aqui para voltar para o site"><img class="responsive-img" src="<?=parent::$imagePath.'logo_site.png';?>"></a>
             </div>
             <div class="col s12 m6 offset-m3 l4 offset-l4">
-                <form name="loginsistema" action="<?=parent::$basePath.'login/auth/'.(\Lib\Tools\Hash::rescue_key_generate($time));?>" data-redirect="<?=parent::$basePath.'/';?>" method="post" autocomplete="off">
+                <form name="loginsistema" action="<?=parent::$basePath.'login/auth/'.(\Lib\Tools\Hash::rescue_key_generate($time));?>" method="post" autocomplete="off">
                     <input type="hidden" name="login[time]" value="<?=$time;?>">
                     <div class="card">
                         <div class="card-content">
