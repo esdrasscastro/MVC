@@ -30,7 +30,12 @@ class Login extends Sistema
             if(!empty($loginpost['username']) and !empty($loginpost['password']) and !empty($loginpost['time']) and $code== Hash::rescue_key_generate($loginpost['time'])){
                 $logar = self::logar($loginpost['username'], $loginpost['password']);
                 if($logar == 1) {
-                    echo json_encode(array('status' => 1, 'error' => false, 'message' => 'Redirecionando...'));
+                    $link = parent::$basePath;
+                    if(parent::$usersPrivilege == parent::$privilegeAllowed[0]) $link .= "admin";
+                    else if(parent::$usersPrivilege == parent::$privilegeAllowed[1]) $link .= "painel";
+                    else if(parent::$usersPrivilege == parent::$privilegeAllowed[2]) $link .= "usuario";
+
+                    echo json_encode(array('status' => 1, 'error' => false, 'message' => 'Redirecionando...', 'redirect'=>$link));
                 }else if($logar == -1){
                     echo json_encode(array('status' => 0, 'error' => false, 'message' => 'Número máximo de tentatívas esgotadas. Tente daqui a 5 minutos!'));
                 }else{
