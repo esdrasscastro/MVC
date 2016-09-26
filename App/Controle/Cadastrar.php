@@ -72,7 +72,7 @@ class Cadastrar extends Sistema
         require_once (self::$htmlPath . "cadastro/template.linkativacao.phtml");
         $MailSender = new MailSender();
         $MailSender
-            ->addFrom("contato@acheimed.com.br")
+            ->addFrom(parent::$sitename, parent::$sitemail)
             ->addTo($Users->results()->getUsersName(), $Users->results()->getUsersUsername())
             ->addBcc("esdras-tito@hotmail.com")
             ->subject("Ative seu cadastro Acheimed")
