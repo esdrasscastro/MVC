@@ -1,5 +1,6 @@
 <?php
 if ((function_exists('session_status') && (session_status() !== PHP_SESSION_ACTIVE)) || !session_id()) session_start();
+date_default_timezone_set("America/Sao_Paulo");
 /**
  * Created by Grupo B+M
  * User: Esdras Castro
