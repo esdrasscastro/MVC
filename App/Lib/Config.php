@@ -49,6 +49,10 @@ class Config
     protected static $dbname = 'acheimed';
     protected static $privilegeAllowed = array();
 
+    protected static $sitename = "Acheimed";
+    protected static $sitemail = "contato@acheimend.com.br";
+    protected static $sitenoreply = "no-replay@acheimend.com.br";
+
     public function __construct($dir='', $basepath='')
     {
         self::$privilegeAllowed = array('administrador', 'prestador', 'usuario', 'visitante');
