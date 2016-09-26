@@ -14,8 +14,8 @@ var Login = {
             return false;
         });
 
-        $('button[name="login[recuperar]"]').on('click',function(){
-            Login.recover($(this).closest('form'));
+        $('button[name="recuperar"]').on('click',function(){
+            Login.recover($(this).closest('form'), $(this));
             return false;
         });
     },
@@ -34,12 +34,31 @@ var Login = {
                 }
             },
             error : function(xhr, text){
-                Materialize.toast(xhr.statusText, 4000);
+                Materialize.toast("Erro ao tentar se comunicar com o servidor.", 4000);
             }
         });
     },
-    recover : function(form){
-        console.log('recuperar');
+    recover : function(form, btnsubmit){
+        var uname = form.find('input[name="users_username"]');
+        if(uname.val().length <= 6){
+            uname.removeClass('valid').addClass('invalid');
+            uname.closest('.input-field').find('label').addClass('active');
+        }else{
+            uname.removeClass('invalid').addClass('valid');
+            $.ajax({
+                url : btnsubmit.data('action'),
+                type : form.attr('method'),
+                dataType : 'json',
+                data : {users_username:uname.val()},
+                beforeSend : function(){Loader.show();},
+                success : function(response){
+                    Materialize.toast(response.message, 15000);
+                },
+                error : function(){
+                    Materialize.toast("Erro ao tentar se comunicar com o servidor.", 4000);
+                }
+            });
+        }
     }
 };
 
