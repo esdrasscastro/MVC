@@ -113,12 +113,25 @@ class Login extends Sistema
             $email = filter_var(\Lib\Tools\Route::get('post')->users_username, FILTER_SANITIZE_EMAIL);
             if(!empty($email)){
                 $Users = new Users();
-                $Users->pegar('users_username=:uname', array(':uname'=>$email));
+                $Users->pegar($Users->prefix.'_username=:uname AND '.$Users->prefix.'_privilege<>"administrador"', array(':uname'=>$email));
                 if($Users->rowCount()){
                     /* Montar o layout do email*/
-                    $code = '?';
+                    $code = Hash::rescue_key_generate($Users->getUsersUsername()).'/'.$Users->getUsersId();
+                    $mensagem= "";
                     require_once (parent::$htmlPath."login/template.recuperarsenha.phtml");
                     $MailSender = new MailSender();
+                    $MailSender
+                        ->addFrom(parent::$sitename, parent::$sitenoreply)
+                        ->addTo($Users->getUsersName(), $Users->getUsersUsername())
+                        ->subject("Recuperar senha")
+                        ->message($mensagem)
+                        ->send()
+                    ;
+                    if($MailSender->status()){
+                        echo json_encode(array('status'=>true, 'error'=>false, 'message'=>'Enviamos um email com o link de redefinição de senha para o usuário informado.'));
+                    }else{
+                        echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'Desculpe! Mas, não conseguimos enviar o email de redefinição de senha. Tente novamente mais tarde!'));
+                    }
                 }else{
                     echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'O usuário informado não se encontra em nosso site.'));
                 }
@@ -127,6 +140,60 @@ class Login extends Sistema
             }
         }else{
             echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'Esta sessão expirou, atualize a página e tente novamente.'));
+        }
+    }
+
+    /**
+     * Abre um formulário para alterar a senha de usuário
+     *
+     * @param string $fkey
+     * @param int $uid
+     */
+    public function recuperarSenha($fkey='', $uid=0)
+    {
+        $fkey = filter_var($fkey, FILTER_SANITIZE_STRING);
+        $uid = filter_var($uid, FILTER_SANITIZE_NUMBER_INT);
+        parent::header("Recuperar Senha");
+        if(!empty($fkey) and $uid > 0){
+            $Users = new Users();
+            if($Users->pegar($Users->prefix.'_id=:uid', array(':uid'=>$uid))->rowCount()){
+                if(Hash::rescue_key_generate($Users->getUsersUsername())==$fkey){
+                    require_once parent::$htmlPath."login/recuperarsenha.phtml";
+                }else{
+                    require_once parent::$htmlPath."login/linkinvalido.phtml";
+                }
+            }else{
+                require_once parent::$htmlPath."login/linkinvalido.phtml";
+            }
+        }else{
+            require_once parent::$htmlPath."login/linkinvalido.phtml";
+        }
+        parent::footer();
+    }
+
+    public function alterarsenha($fkey='', $uid=0)
+    {
+        $fkey = filter_var($fkey, FILTER_SANITIZE_STRING);
+        $uid = filter_var($uid, FILTER_SANITIZE_NUMBER_INT);
+        $senha = property_exists(\Lib\Tools\Route::get('post'), 'users_password')?\Lib\Tools\Route::get('post')->users_password : "";
+        if(!empty($fkey) and $uid > 0 and !empty($senha)){
+            $Users = new Users();
+            if($Users->pegar($Users->prefix.'_id=:uid', array(':uid'=>$uid))->rowCount()){
+                if(Hash::rescue_key_generate($Users->results()->getUsersUsername())==$fkey){
+                    $Users = $Users->results();
+                    if($Users->setUsersHash(Hash::generate_hash($senha))->setUsersPassword(Hash::password_create($senha, $Users->getUsersHash()))->alterar()){
+
+                    }else{
+                        // senha não foi atualizada
+                    }
+                }else{
+                    // chave invalida
+                }
+            }else{
+                // usuario não existe
+            }
+        }else{
+            // chave e id não informado
         }
     }
 
