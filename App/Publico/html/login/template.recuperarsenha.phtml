@@ -4,7 +4,7 @@
  * User: Esdras Castro
  * Date: 23/09/2016
  */
-$linkativacao = parent::$basePath."login/recuperarsenha/".$code;
+$linkativacao = parent::$basePath."login/recuperar-senha/".$code;
 
 $mensagem = "
             <div style='background-color: #eaeaea;padding: 20px; font-family:\"Open Sans\", Verdana, sans-serif'>
@@ -20,16 +20,17 @@ $mensagem = "
                             <h1>Recuperar Senha!</h1>
                             <p>
                                 <font size='+2'>
-                                Seu cadastro foi realizado com sucesso.
+                                Você solicitou um link de redefinicao de senha!
                                 </font>
                                 <br>
                                 <font size='2'>
-                                Ative o seu cadastro para ter acesso ao seu painel.
+                                Clique no botão abaixo para alterar a sua senha. Se você não solicitou a redefinição de senha
+                                desconsidere este email.
                                 </font>
                             </p>
                             <br>
                             <p>
-                                <a href='{$linkativacao}' target='_blank' style='padding:15px; border: 1px solid #11947e;border-bottom-width: 7px;background-color: #00bf9e; color:white; text-decoration:none; border-radius:5px;-moz-border-radius: 5px;-webkit-border-radius:5px;box-shadow:2px 3px 10px -3px #000000;'><strong>ATIVAR MINHA CONTA AGORA</strong></a>
+                                <a href='{$linkativacao}' target='_blank' style='padding:15px; border: 1px solid #11947e;border-bottom-width: 7px;background-color: #00bf9e; color:white; text-decoration:none; border-radius:5px;-moz-border-radius: 5px;-webkit-border-radius:5px;box-shadow:2px 3px 10px -3px #000000;'><strong>RECUPERAR SENHA</strong></a>
                             </p>
                             <br>
                             <font size='2'>
