@@ -10,7 +10,9 @@ namespace Controle;
 
 use Lib\Tools\Hash;
 use Lib\Sistema;
+use Lib\Tools\MailSender;
 use Lib\Tools\Session;
+use Modelo\Users;
 
 class Login extends Sistema
 {
@@ -77,6 +79,10 @@ class Login extends Sistema
                 self::sessionGenerate($Users);
                 return parent::$authenticated = true;
             }else{
+                $dtime = date("Y-m-d H:i:s",date("U") - 300);
+
+                if($Users->getUsersChangesTime() <= $dtime) $Login->resetAttempts();
+
                 if($Users->getUsersAttempts() > 0) {
                     if (Hash::password_compare($password, $Users->getUsersHash(), $Users->getUsersPassword())) {
                         $Login->resetAttempts();
@@ -93,6 +99,35 @@ class Login extends Sistema
         $Login->subtractAttempts();
 
         return self::$authenticated = false;
+    }
+
+    /**
+     * Enviar uma senha de recuperacao
+     * imprime um json
+     *
+     * @param string $fkey
+     */
+    public function recuperar($fkey='')
+    {
+        if(parent::siteRequest($fkey, 'recuperar_senha')){
+            $email = filter_var(\Lib\Tools\Route::get('post')->users_username, FILTER_SANITIZE_EMAIL);
+            if(!empty($email)){
+                $Users = new Users();
+                $Users->pegar('users_username=:uname', array(':uname'=>$email));
+                if($Users->rowCount()){
+                    /* Montar o layout do email*/
+                    $code = '?';
+                    require_once (parent::$htmlPath."login/template.recuperarsenha.phtml");
+                    $MailSender = new MailSender();
+                }else{
+                    echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'O usuário informado não se encontra em nosso site.'));
+                }
+            }else{
+                echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'Informe um email válido.'));
+            }
+        }else{
+            echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'Esta sessão expirou, atualize a página e tente novamente.'));
+        }
     }
 
     public function sessionGenerate(\Modelo\Users $Users)
