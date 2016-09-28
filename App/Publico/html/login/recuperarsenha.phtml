@@ -9,7 +9,46 @@
 <main class="valign-wrapper">
     <div class="container grey-text">
         <div class="row valign">
-            form de recuperar senha
+            <br>
+            <div class="col m12 s6 offset-s3 center-align" style="margin-bottom: 15px;">
+                <a href="<?=parent::$basePath;?>" title="Clique aqui para voltar para o site"><img class="responsive-img" src="<?=parent::$imagePath.'logo_site.png';?>"></a>
+            </div>
+            <div class="col s12 m6 offset-m3 l4 offset-l4">
+                <form name="alterarsenha" action="<?=parent::$basePath.'login/alterarsenha/'.(\Lib\Tools\Hash::rescue_key_generate($Users->results()->getUsersUsername().date("Y-m-d"))).'/'.$uid;?>" method="post" autocomplete="off">
+                    <div class="card">
+                        <div class="card-content">
+                            <span>
+                                <i class="material-icons prefix">vpn_key</i> <br>Digite uma nova senha para poder acessar o seu painel.<br><br>
+                                <span style="font-size: 13px;"> *Lembre-se que uma senha segura deve conter no mínimo 8 caracteres utilizando letras maiúsculas, minúsculas, números e caracteres especiais (#_%$@* entre outros).</span>
+                            </span>
+                            <div class="row hide alert-message">
+                                <div class="col s12 center-align">
+                                    <div style="padding: 10px 0 5px 0;" class="help-message grey lighten-3 black-text">
+                                        <i class="material-icons prefix" style="padding: 0;">error_outline</i> <span style="display: inline-block;vertical-align: super;">Digite uma senha válida.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 0;">
+                                <div class="input-field col s12">
+                                    <input id="users_password" name="users_password" type="password" class="validate" required>
+                                    <label for="users_password" data-error="Digite a sua senha">Nova senha</label>
+                                </div>
+                                <div class="input-field col s12">
+                                    <input id="repete_senha" name="repete_senha" type="password" class="validate" required>
+                                    <label for="repete_senha" data-error="Digite a sua senha">Confirmar nova senha</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <div class="row" style="margin-bottom: 0;">
+                                <div class="col s6 right right-align">
+                                    <button type="submit" name="alterarsenha" value="true" class="waves-effect waves-light btn_menu">Salvar e Entrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </main>

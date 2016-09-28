@@ -115,8 +115,9 @@ class Login extends Sistema
                 $Users = new Users();
                 $Users->pegar($Users->prefix.'_username=:uname AND '.$Users->prefix.'_privilege<>"administrador"', array(':uname'=>$email));
                 if($Users->rowCount()){
+                    $Users = $Users->results();
                     /* Montar o layout do email*/
-                    $code = Hash::rescue_key_generate($Users->getUsersUsername()).'/'.$Users->getUsersId();
+                    $code = Hash::rescue_key_generate($Users->getUsersUsername().date("Y-m-d")).'/'.$Users->getUsersId();
                     $mensagem= "";
                     require_once (parent::$htmlPath."login/template.recuperarsenha.phtml");
                     $MailSender = new MailSender();
@@ -151,16 +152,18 @@ class Login extends Sistema
      */
     public function recuperarSenha($fkey='', $uid=0)
     {
+
         $fkey = filter_var($fkey, FILTER_SANITIZE_STRING);
         $uid = filter_var($uid, FILTER_SANITIZE_NUMBER_INT);
         parent::header("Recuperar Senha");
         if(!empty($fkey) and $uid > 0){
             $Users = new Users();
             if($Users->pegar($Users->prefix.'_id=:uid', array(':uid'=>$uid))->rowCount()){
-                if(Hash::rescue_key_generate($Users->getUsersUsername())==$fkey){
+                if(Hash::rescue_key_generate($Users->results()->getUsersUsername() . date("Y-m-d"))==$fkey){
+                    parent::setJsScript("Login.init();");
                     require_once parent::$htmlPath."login/recuperarsenha.phtml";
                 }else{
-                    require_once parent::$htmlPath."login/linkinvalido.phtml";
+                    require_once parent::$htmlPath."login/linkexpirado.phtml";
                 }
             }else{
                 require_once parent::$htmlPath."login/linkinvalido.phtml";
@@ -179,21 +182,25 @@ class Login extends Sistema
         if(!empty($fkey) and $uid > 0 and !empty($senha)){
             $Users = new Users();
             if($Users->pegar($Users->prefix.'_id=:uid', array(':uid'=>$uid))->rowCount()){
-                if(Hash::rescue_key_generate($Users->results()->getUsersUsername())==$fkey){
+                if(Hash::rescue_key_generate($Users->results()->getUsersUsername().date("Y-m-d"))==$fkey){
                     $Users = $Users->results();
-                    if($Users->setUsersHash(Hash::generate_hash($senha))->setUsersPassword(Hash::password_create($senha, $Users->getUsersHash()))->alterar()){
-
+                    if($Users->setUsersHash(Hash::generate_hash($senha))->setUsersPassword(Hash::password_create($senha, $Users->getUsersHash()))->atualizarSenha()){
+                        echo json_encode(array('status'=>true, 'error'=>false, 'message'=>'Senha atualizada com sucesso!', 'fields'=>array(), 'errorInfo'=>$Users->getErrorInfo(), 'uid'=>$uid));
                     }else{
-                        // senha não foi atualizada
+                        echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'Erro ao tentar atualiza a sua senha. Atualize a página e tente novamente!', 'fields'=>array(), 'errorInfo'=>$Users->getErrorInfo(), 'uid'=>$uid));
                     }
                 }else{
-                    // chave invalida
+                    echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'Este link de redefinição de senha expirou, faça uma nova solicitação.', 'fields'=>array(), 'errorInfo'=>$Users->getErrorInfo(), 'uid'=>$uid));
                 }
             }else{
-                // usuario não existe
+                echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'Este link de redefinição de senha expirou, faça uma nova solicitação.', 'fields'=>array(), 'errorInfo'=>$Users->getErrorInfo(), 'uid'=>$uid));
             }
         }else{
-            // chave e id não informado
+            if(empty($fkey)){
+                echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'Este link de redefinição de senha expirou, faça uma nova solicitação.', 'fields'=>array(), 'errorInfo'=>array(), 'uid'=>$uid));
+            }else{
+                echo json_encode(array('status'=>true, 'error'=>true, 'message'=>'A senha não foi informada', 'fields'=>array(array('name'=>'users_password', 'message'=>'Informe uma senha.')), 'errorInfo'=>array(), 'uid'=>$uid));
+            }
         }
     }
 

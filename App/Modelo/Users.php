@@ -68,6 +68,11 @@ class Users extends DbModelo
         return parent::alterar($dados, 'users_id=:uid', array(':uid'=>$this->getUsersId()));
     }
 
+    public function atualizarSenha()
+    {
+        return parent::alterar(array('users_password'=>$this->getUsersPassword(), 'users_hash'=>$this->getUsersHash()), 'users_id=:uid', array(':uid'=>$this->getUsersId()));
+    }
+
     public function atualizarTentativas()
     {
         return parent::alterar(array('users_attempts'=>($this->getUsersAttempts()>0)?$this->getUsersAttempts():'00'), 'users_id=:uid', array(':uid'=>$this->getUsersId()));

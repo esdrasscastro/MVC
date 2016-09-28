@@ -18,6 +18,80 @@ var Login = {
             Login.recover($(this).closest('form'), $(this));
             return false;
         });
+
+        $('form[name="alterarsenha"]').validate({
+            rules : {
+                users_password : {
+                    required : true,
+                    minlength : 6
+                },
+                repete_senha : {
+                    required : true,
+                    equalTo : "#users_password"
+                }
+            },
+            messages: {
+                users_password:{
+                    required: "Digite uma senha de acesso.",
+                    minlength: "A sua senha deve conter ao menos 6 dígitos."
+                },
+                repete_senha : {
+                    required : "Digite uma senha de confirmação.",
+                    equalTo: "As senhas não conferem."
+                }
+            },
+            errorClass : 'invalid',
+            validClass : 'valid',
+            errorElement : 'span',
+            errorPlacement: function(error, element) {
+                $(element).closest('.input-field').find('label').attr('data-error', error.insertAfter(element).text());
+                $(element).closest('.input-field').find('span.invalid').remove();
+            },
+            submitHandler : function(form){
+                form = $(form);
+                var btnsubmit = form.find('button[type=submit]');
+                $.ajax({
+                    url : form.attr('action'),
+                    dataType : 'json',
+                    type : form.attr('method'),
+                    data : form.serialize(),
+                    beforeSend : function(){
+                        Loader.show();
+                        btnsubmit.prop('disabled', true).text('Alterando...');
+                    },
+                    success : function(response) {
+                        if(!response.error){
+                            btnsubmit.prop('disabled', false).text('Salvo!');
+                            Materialize.toast(response.message);
+                        }else{
+                            Loader.hide();
+                            btnsubmit.prop('disabled', false).text('Enviar');
+                            if(response.fields.length > 0){
+                                for(i=0;i<response.fields.length;i++){
+                                    var item = $('#' + response.fields[i].name);
+                                    item.removeClass('valid').addClass('invalid');
+                                    item.closest('.input-field').find('label').attr('data-error', response.fields[i].message);
+                                }
+
+                                $('.submit_btn_div').addClass('m2');
+                                $('.msg_error').fadeIn().html(response.message);
+                            }else{
+                                Materialize.toast(response.message);
+                            }
+                        }
+
+                        console.log(response);
+                    },
+                    error : function (xhr, statusText) {
+                        Loader.hide();
+                        btnsubmit.prop('disabled', false).text('Enviar');
+
+
+                        console.log(statusText);
+                    }
+                });
+            }
+        });
     },
     auth : function(form){
         $.ajax({
