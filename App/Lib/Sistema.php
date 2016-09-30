@@ -19,6 +19,7 @@ class Sistema extends Config
     public function __construct($dir='', $basepath='')
     {
         parent::__construct($dir, $basepath);
+        parent::useDatabase(false);
 
         $this->prepareUrl();
 
