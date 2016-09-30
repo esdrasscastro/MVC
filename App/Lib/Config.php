@@ -73,8 +73,16 @@ class Config
         self::$cssPath = self::$mediasPath.'css/';
 
         self::$dsn .= "mysql:host=".self::$hostdb.";dbname=".self::$dbname.";charset=UTF8";
+    }
 
-        // Faz a conexão com o banco de dados
+    protected function useDatabase($yes=true)
+    {
+        if($yes) self::connect();
+
+    }
+
+    protected function connect()
+    {
         \Lib\Connection::connect(self::$dsn, self::$userdb, self::$passdb);
     }
 
