@@ -245,7 +245,7 @@ class Sistema extends Config
      */
     protected function prepareUrl($url='')
     {
-        $this->urlReferrer = $_SERVER['URL_REFERRER'];
+        parent::$urlReferrer = $_SERVER['HTTP_REFERER'];
 
         if(empty($url)) $url = isset($_REQUEST['url'])?filter_var(strtolower(trim(trim($_REQUEST['url']),'/')), FILTER_SANITIZE_URL):'';
 
