@@ -8,8 +8,8 @@ date_default_timezone_set("America/Sao_Paulo");
  */
 require "vendor/autoload.php";
 
-if($_SERVER['HTTP_HOST'] == 'localhost:81') {
-    $basepath = ((!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on") ? "http" : "https") . '://' . $_SERVER['HTTP_HOST'] . '/acheimed/';
+if($_SERVER['HTTP_HOST'] == 'localhost') {
+    $basepath = ((!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on") ? "http" : "https") . '://' . $_SERVER['HTTP_HOST'] . '/orcagrafica/';
 }else {
     $basepath = ((!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on") ? "http" : "https") . '://' . $_SERVER['HTTP_HOST'] . '/';
 }

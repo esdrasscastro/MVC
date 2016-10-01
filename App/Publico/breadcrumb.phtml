@@ -4,7 +4,7 @@
  * User: Esdras Castro
  * Date: 19/08/2016
  */
-if(self::$showBreadcrumb) {
+if(parent::$showBreadcrumb) {
     ?>
     <nav>
         <div class="nav-wrapper grey darken-3">
@@ -12,7 +12,7 @@ if(self::$showBreadcrumb) {
                 <div class="container">
                     <div class="row">
                         <div class="col s12">
-                            <img src="<?= self::$basePath . 'images/folhas_b.png'; ?>" style="vertical-align: sub;">
+                            <img src="<?= parent::$basePath . 'images/folhas_b.png'; ?>" style="vertical-align: sub;">
                             <?= self::getBreadcrumb(); ?>
                         </div>
                     </div>

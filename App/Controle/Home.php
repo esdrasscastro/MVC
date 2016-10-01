@@ -11,11 +11,11 @@ use Lib\Sistema;
 
 class Home extends Sistema
 {
-    public function index()
+    public static function index()
     {
-        self::header('Acheimed');
+        parent::header('Acheimed');
         require_once(self::$htmlPath."home/index.phtml");
-        self::footer();
+        parent::footer();
     }
 
     public static function hasAuth()

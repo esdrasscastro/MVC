@@ -30,14 +30,14 @@ class Sistema extends Config
                 if($class::hasAuth()){
                     if(self::auth()){
                         self::setBreadcrumb(parent::$basePath.'/'.strtolower(self::$controller),self::$controller);
-                        call_user_func_array([$class, $this->method], $this->params);
+                        call_user_func_array([$class, parent::$method], parent::$params);
                     }else{
                         self::$showBreadcrumb = false;
                         call_user_func_array(['Controle\\Error', 'error505'], []);
                     }
                 }else{
                     self::setBreadcrumb(parent::$basePath.'/'.strtolower(self::$controller),self::$controller);
-                    call_user_func_array([$class, $this->method], $this->params);
+                    call_user_func_array([$class, parent::$method], parent::$params);
                 }
             } else {
                 self::$showBreadcrumb = false;
@@ -56,7 +56,7 @@ class Sistema extends Config
      * Se a página precisar de autenticação vai chamar este método, que redireciona para o painel ou para o login
      * ou mante na página que está tentando acessar
      */
-    protected function auth()
+    protected static function auth()
     {
         $session = Session::get(Login::sessionName());
 
@@ -81,7 +81,7 @@ class Sistema extends Config
      * @param $name
      * @param string $class
      */
-    public function setBreadcrumb($href, $name, $class='')
+    public static function setBreadcrumb($href, $name, $class='')
     {
         array_push(parent::$breadcrumb, "<a href='{$href}' class='breadcrumb {$class}'>{$name}</a>");
     }
@@ -91,7 +91,7 @@ class Sistema extends Config
      * @param $name
      * @param string $class
      */
-    public function setBreadcrumbFirst($href, $name, $class='')
+    public static function setBreadcrumbFirst($href, $name, $class='')
     {
         array_unshift(parent::$breadcrumb, "<a href='{$href}' class='breadcrumb {$class}'>{$name}</a>");
     }
@@ -99,7 +99,7 @@ class Sistema extends Config
     /**
      * @return string
      */
-    public function getBreadcrumb()
+    public static function getBreadcrumb()
     {
         $html = '';
         foreach (parent::$breadcrumb as $val){
@@ -110,7 +110,7 @@ class Sistema extends Config
     }
 
     /*** Menu Desktop ***/
-    public function setMenuDesktop($url='', $iconname='', $name='', $title='', $active=false, $urllocal=true, $classes='')
+    public static function setMenuDesktop($url='', $iconname='', $name='', $title='', $active=false, $urllocal=true, $classes='')
     {
         $icon = !empty($iconname)?"<i class='material-icons left'>{$iconname}</i>":'';
         $url = $urllocal?parent::$basePath.$url:$url;
@@ -119,13 +119,13 @@ class Sistema extends Config
 
         array_push(parent::$menudesktop, "<li {$active}><a href='{$url}' {$classes} title='{$title}'>{$icon} {$name}</a>");
 
-        return $this;
+        return __CLASS__;
     }
 
     /**
      * @return string
      */
-    public function getMenuDesktop()
+    public static function getMenuDesktop()
     {
         $html = "";
         foreach (parent::$menudesktop as $val){
@@ -136,7 +136,7 @@ class Sistema extends Config
     }
     /*** Fim Menu Desktop ***/
     /*** Menu Mobile ***/
-    public function setMenuMobile($url, $iconname, $name, $title='', $active=false, $urllocal=true, $classes='')
+    public static function setMenuMobile($url, $iconname, $name, $title='', $active=false, $urllocal=true, $classes='')
     {
         $icon = !empty($iconname)?"<i class='material-icons left'>{$iconname}</i>":'';
         $url = $urllocal?parent::$basePath.$url:$url;
@@ -145,13 +145,13 @@ class Sistema extends Config
 
         array_push(parent::$menumobile, "<li {$active}><a href='{$url}' {$classes} title='{$title}'>{$icon} {$name}</a>");
 
-        return $this;
+        return __CLASS__;
     }
 
     /**
      * @return string
      */
-    public function getMenuMobile()
+    public static function getMenuMobile()
     {
         $html = "";
         foreach (parent::$menumobile as $val){
@@ -167,27 +167,27 @@ class Sistema extends Config
      * @param $src
      * @return $this
      */
-    public function setJs($src)
+    public static function setJs($src)
     {
         if(!empty($src)) array_push(parent::$javascript, '<script src="'.$src.'" type="text/javascript"></script>');
-        return $this;
+        return __CLASS__;
     }
 
     /**
      * @param $string
      * @return $this
      */
-    public function setJsScript($string)
+    public static function setJsScript($string)
     {
         if(!empty($string)) array_push(parent::$jsScript, $string);
-        return $this;
+        return __CLASS__;
     }
 
     /**
      * @param string $variablename
      * @return string
      */
-    public function getJsScript($variablename='javascript'){
+    public static function getJsScript($variablename='javascript'){
         $html = '';
         foreach (parent::$$variablename as $val){
             $html .= "{$val}\n";
@@ -201,27 +201,27 @@ class Sistema extends Config
      * @param $href
      * @return $this
      */
-    public function setCss($href)
+    public static function setCss($href)
     {
         if(!empty($href)) array_push(parent::$css, '<link href="'.$href.'" rel="stylesheet" type="text/css" />');
-        return $this;
+        return __CLASS__;
     }
 
     /**
      * @param $string
      * @return $this
      */
-    public function setStyleScript($string)
+    public static function setStyleScript($string)
     {
         if(!empty($string)) array_push(parent::$styleScript, $string);
-        return $this;
+        return __CLASS__;
     }
 
     /**
      * @param string $variablename
      * @return string
      */
-    public function getStyleScript($variablename='styleScript'){
+    public static function getStyleScript($variablename='styleScript'){
         $html = '';
         foreach (parent::$$variablename as $val){
             $html .= "{$val}\n";
@@ -234,7 +234,7 @@ class Sistema extends Config
     /**
      * @param $href
      */
-    protected function redirect($href)
+    protected static function redirect($href)
     {
         $href = filter_var(strtolower(trim(trim($href),'/')), FILTER_SANITIZE_URL);
         if(!empty($href)) header('Location: '.$href);
@@ -243,24 +243,24 @@ class Sistema extends Config
     /**
      * @param string $url
      */
-    protected function prepareUrl($url='')
+    protected static function prepareUrl($url='')
     {
-        parent::$urlReferrer = $_SERVER['HTTP_REFERER'];
+        if(isset($_SERVER['HTTP_REFERER'])) parent::$urlReferrer = $_SERVER['HTTP_REFERER'];
 
         if(empty($url)) $url = isset($_REQUEST['url'])?filter_var(strtolower(trim(trim($_REQUEST['url']),'/')), FILTER_SANITIZE_URL):'';
 
         if(!empty($url)){
             $urlSplit = explode('/', $url);
             if(count($urlSplit) > 0){
-                $this->setController($urlSplit[0]);
+                self::setController($urlSplit[0]);
                 unset($urlSplit[0]);
 
                 if(isset($urlSplit[1])){
-                    $this->setMethod($urlSplit[1]);
+                    self::setMethod($urlSplit[1]);
                     unset($urlSplit[1]);
 
                     if(!empty($urlSplit)){
-                        $this->setParams($urlSplit);
+                        self::setParams($urlSplit);
                     }
                 }
             }
@@ -271,49 +271,49 @@ class Sistema extends Config
      * @param string $controller
      * @return $this
      */
-    protected function setController($controller='Home')
+    protected static function setController($controller='Home')
     {
-        $controller = ucfirst($this->removeSpecialChar(trim($controller)));
+        $controller = ucfirst(self::removeSpecialChar(trim($controller)));
         if(!empty($controller)){
             parent::$controller = $controller;
         }
 
-        return $this;
+        return __CLASS__;
     }
 
     /**
      * @param string $method
      * @return $this
      */
-    protected function setMethod($method='index')
+    protected static function setMethod($method='index')
     {
-        $method = $this->removeSpecialChar(trim($method));
+        $method = self::removeSpecialChar(trim($method));
 
         if(!empty($method)){
-            $this->method = $method;
+            self::$method = $method;
         }
 
-        return $this;
+        return __CLASS__;
     }
 
     /**
      * @param array $arr
      * @return $this
      */
-    protected function setParams(array $arr)
+    protected static function setParams(array $arr)
     {
         if(!empty($arr)){
-            $this->params = array_filter($arr);
+            parent::$params = array_filter($arr);
         }
 
-        return $this;
+        return __CLASS__;
     }
 
     /**
      * @param $string
      * @return mixed
      */
-    protected function onlyNumber($string)
+    protected static function onlyNumber($string)
     {
         return preg_replace("/[^0-9]/", "", $string);
     }
@@ -322,7 +322,7 @@ class Sistema extends Config
      * @param $string
      * @return mixed
      */
-    protected function removeSpecialChar($string)
+    protected static function removeSpecialChar($string)
     {
         return preg_replace("/[^a-zA-Z0-9]/", "", $string);
     }
@@ -330,7 +330,7 @@ class Sistema extends Config
     /**
      * @param string $title
      */
-    protected function header($title='')
+    protected static function header($title='')
     {
         parent::$title = $title;
         /*
@@ -369,14 +369,14 @@ class Sistema extends Config
      * @param string $rescueword
      * @return bool
      */
-    protected function siteRequest($fkey='', $rescueword=''){
+    protected static function siteRequest($fkey='', $rescueword=''){
         return (!empty($fkey) and \Lib\Tools\Hash::rescue_key_generate($rescueword)==$fkey and \Lib\Tools\Route::isSiteRequest());
     }
 
     /**
      *
      */
-    protected function footer()
+    protected static function footer()
     {
         self::setJs('https://code.jquery.com/jquery-2.1.1.min.js');
         self::setJs(parent::$jsPath.'bin/materialize.js');
@@ -399,7 +399,7 @@ class Sistema extends Config
      * @param string $cpf
      * @return bool
      */
-    protected function validaCpf($cpf='')
+    protected static function validaCpf($cpf='')
     {
         $cpf = filter_var($cpf, FILTER_SANITIZE_STRING);
         $cpf = preg_replace("/[^0-9]/", "", $cpf);
@@ -437,7 +437,7 @@ class Sistema extends Config
      * @param $cnpj
      * @return bool
      */
-    protected function validaCnpj($cnpj='')
+    protected static function validaCnpj($cnpj='')
     {
         $cnpj = preg_replace('/[^0-9]/', '', $cnpj);
         $cpf = str_pad($cnpj, 14, '0', STR_PAD_LEFT);
@@ -468,7 +468,7 @@ class Sistema extends Config
      *
      * @return string
      */
-    protected function getClientIp() {
+    protected static function getClientIp() {
         $ipaddress = '';
         if (getenv('HTTP_CLIENT_IP'))
             $ipaddress = getenv('HTTP_CLIENT_IP');

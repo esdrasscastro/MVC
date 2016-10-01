@@ -12,8 +12,8 @@ class Config
 {
     protected static $securitycode = 'a25s*[_o@pS-b#1S3uzP&89.1)!hTr+1/2$sa0%{21jAgsE54sP@39YjQlSA6';
     protected static $controller = 'Home';
-    protected $method = 'index';
-    protected $params = [];
+    protected static $method = 'index';
+    protected static $params = [];
     protected static $urlReferrer = '';
     protected $debugError = false;
     protected static $htmlPath = '';
@@ -75,33 +75,33 @@ class Config
         self::$dsn .= "mysql:host=".self::$hostdb.";dbname=".self::$dbname.";charset=UTF8";
     }
 
-    protected function useDatabase($yes=true)
+    protected static function useDatabase($yes=true)
     {
         if($yes) self::connect();
 
     }
 
-    protected function connect()
+    protected static function connect()
     {
         \Lib\Connection::connect(self::$dsn, self::$userdb, self::$passdb);
     }
 
-    protected function setUserPrivilege($userPrivilege='')
+    protected static function setUserPrivilege($userPrivilege='')
     {
         if(!empty($userPrivilege) and in_array($userPrivilege, self::$privilegeAllowed)) self::$usersPrivilege = $userPrivilege;
     }
 
-    protected function userHasPrivilege()
+    protected static function userHasPrivilege()
     {
         return in_array(self::$usersPrivilege, self::$privilegio);
     }
 
-    protected function setPrivilege($privilege='')
+    protected static function setPrivilege($privilege='')
     {
         if(!empty($privilege) and in_array($privilege, self::$privilegeAllowed)) array_push(self::$privilegio, $privilege);
     }
 
-    protected function hasPrivilege($privilege='')
+    protected static function hasPrivilege($privilege='')
     {
         return (!empty($privilege) and in_array($privilege, self::$privilegeAllowed)) ? true : false;
     }

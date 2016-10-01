@@ -14,7 +14,7 @@
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <?=self::getStyleScript('css');?>
         <!-- JavaScript -->
-        <title><?=self::$title;?></title>
+        <title><?=parent::$title;?></title>
 
         <style>
             body {display: flex;min-height: 100vh;flex-direction: column;}main{flex: 1 0 auto;}<?=self::getStyleScript('styleScript');?>

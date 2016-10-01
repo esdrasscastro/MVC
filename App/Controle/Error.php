@@ -17,25 +17,25 @@ class Error extends Sistema
         if(method_exists($this, 'error'.$code)){
             call_user_func_array([$this, 'error'.$code], []);
         }else{
-            $this->error404();
+            self::error404();
         }
     }
 
-    public function error404()
+    public static function error404()
     {
-        self::header('Página não encontrada');
+        parent::header('Página não encontrada');
         require_once parent::$errorPath.'404.phtml';
-        self::footer();
+        parent::footer();
     }
 
-    public function error601()
+    public static function error601()
     {
-        self::header('Erro de envio');
+        parent::header('Erro de envio');
         require_once parent::$errorPath.'601.phtml';
-        self::footer();
+        parent::footer();
     }
 
-    public function error505()
+    public static function error505()
     {
         self::header('Permissão negada!');
         require_once parent::$errorPath.'505.phtml';

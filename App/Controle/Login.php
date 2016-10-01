@@ -16,7 +16,7 @@ use Modelo\Users;
 
 class Login extends Sistema
 {
-    public function index()
+    public static function index()
     {
         self::$showBreadcrumb = false;
         self::header('Acessar meu painel');
@@ -25,7 +25,7 @@ class Login extends Sistema
         self::footer();
     }
 
-    public function auth($code='')
+    public static function auth($code='')
     {
         if($_SERVER['REQUEST_METHOD']=='POST' and isset($_POST['login'])){
             $loginpost = $_POST['login'];
@@ -61,7 +61,7 @@ class Login extends Sistema
         }
     }
 
-    public function hasAuth(){return false;}
+    public static function hasAuth(){return false;}
 
     public static function out()
     {
@@ -107,7 +107,7 @@ class Login extends Sistema
      *
      * @param string $fkey
      */
-    public function recuperar($fkey='')
+    public static function recuperar($fkey='')
     {
         if(parent::siteRequest($fkey, 'recuperar_senha')){
             $email = filter_var(\Lib\Tools\Route::get('post')->users_username, FILTER_SANITIZE_EMAIL);
@@ -150,7 +150,7 @@ class Login extends Sistema
      * @param string $fkey
      * @param int $uid
      */
-    public function recuperarSenha($fkey='', $uid=0)
+    public static function recuperarSenha($fkey='', $uid=0)
     {
 
         $fkey = filter_var($fkey, FILTER_SANITIZE_STRING);
@@ -174,7 +174,7 @@ class Login extends Sistema
         parent::footer();
     }
 
-    public function alterarsenha($fkey='', $uid=0)
+    public static function alterarsenha($fkey='', $uid=0)
     {
         $fkey = filter_var($fkey, FILTER_SANITIZE_STRING);
         $uid = filter_var($uid, FILTER_SANITIZE_NUMBER_INT);
@@ -204,7 +204,7 @@ class Login extends Sistema
         }
     }
 
-    public function sessionGenerate(\Modelo\Users $Users)
+    public static function sessionGenerate(\Modelo\Users $Users)
     {
         $sessionid = session_regenerate_id(true);
         parent::setUserPrivilege($Users->getUsersPrivilege());

@@ -12,7 +12,7 @@ use Lib\Sistema;
 
 class Painel extends Sistema
 {
-    public function index()
+    public static function index()
     {
         parent::setPrivilege('prestador');
 
@@ -37,7 +37,7 @@ class Painel extends Sistema
     /*
      * Privilégios de acesso a essa página
      */
-    private function myPrivilege()
+    private static function myPrivilege()
     {
         if(!parent::userHasPrivilege()){
             new Error(505);

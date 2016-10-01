@@ -92,8 +92,11 @@ class Route {
 	public static function isSiteRequest(){
 		$dominio= $_SERVER['HTTP_HOST'];
 		$referer = $_SERVER['HTTP_REFERER'];
-		$isDominio = reset(explode('/',str_replace(array('http://','https://'),'',$dominio)));
-		$isReferer = reset(explode('/',str_replace(array('http://','https://'),'',$referer)));
+        $choice = array('http://','https://');
+        $vars1 = explode('/',str_replace($choice,'',$dominio));
+        $vars2 = explode('/',str_replace($choice,'',$dominio));
+		$isDominio = reset($vars1);
+		$isReferer = reset($vars2);
 		return ($isDominio==$isReferer);
 	}
 

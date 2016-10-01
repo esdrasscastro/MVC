@@ -15,8 +15,8 @@ class Cep extends Endereco
     function __construct()
     {
         parent::__construct();
-        $this->urlRepublica = 'http://cep.republicavirtual.com.br/web_cep.php?formato=json&cep=';
-        $this->urlViacep = "http://viacep.com.br/ws/%s/json/unicode/";
+        $this->urlRepublica = 'http://cep.republicavirtual.com.br/web_cep.php?formato=xml&cep=';
+        $this->urlViacep = "http://viacep.com.br/ws/%s/xml/unicode/";
     }
 
     /**
@@ -179,15 +179,16 @@ class Cep extends Endereco
 
     public function webClient ($url='')
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        //curl_setopt($ch, CURLOPT_CONNECTTIMEOUT ,30); /* tempo em segundos */
-        curl_setopt($ch, CURLOPT_TIMEOUT, 120); /* tempo em segundos (2 minutos) padrão */
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $data = curl_exec($ch);
-        curl_close($ch);
+//        $ch = \curl_init();
+//        curl_setopt($ch, CURLOPT_URL, $url);
+//        //curl_setopt($ch, CURLOPT_CONNECTTIMEOUT ,30); /* tempo em segundos */
+//        curl_setopt($ch, CURLOPT_TIMEOUT, 120); /* tempo em segundos (2 minutos) padrão */
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+//        $data = curl_exec($ch);
+//        curl_close($ch);
+        $data = json_encode(simplexml_load_file($url));
         return $data;
     }
 }

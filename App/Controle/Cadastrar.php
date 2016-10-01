@@ -20,7 +20,7 @@ class Cadastrar extends Sistema
 {
     public static $authenticated = false;
 
-    public function index()
+    public static function index()
     {
         //self::myPrivilege();
         parent::setJsScript("Cadastrar.init();");
@@ -36,7 +36,7 @@ class Cadastrar extends Sistema
      * @param string $fkey
      * @param int $uid
      */
-    public function sucesso($fkey='', $uid=0)
+    public static function sucesso($fkey='', $uid=0)
     {
         if(parent::siteRequest($fkey, 'cadastrar_prestador_sucesso') and $uid > 0) {
             $Users = new Users();
@@ -64,7 +64,7 @@ class Cadastrar extends Sistema
      * @param Users|null $Users
      * @return bool
      */
-    private function sendLinkAtivacao(Users $Users=null)
+    private static function sendLinkAtivacao(Users $Users=null)
     {
         $mensagem = "";
         $code = \Lib\Tools\Hash::rescue_key_generate($Users->results()->getUsersUsername()) . "/" .$Users->results()->getUsersId();
@@ -87,7 +87,7 @@ class Cadastrar extends Sistema
         }
     }
 
-    public function ativarCadastro($key='', $uid=0)
+    public static function ativarCadastro($key='', $uid=0)
     {
         $key = filter_var($key, FILTER_SANITIZE_STRING);
         $uid = filter_var($uid, FILTER_SANITIZE_NUMBER_INT);
@@ -121,7 +121,7 @@ class Cadastrar extends Sistema
      *
      * @param string $cep
      */
-    public function buscarcep($cep='')
+    public static function buscarcep($cep='')
     {
         if(\Lib\Tools\Route::isSiteRequest()) {
             $Cep = new Cep();
@@ -145,7 +145,7 @@ class Cadastrar extends Sistema
      *
      * @param string $fkey
      */
-    public function fazerCadastro($fkey='')
+    public static function fazerCadastro($fkey='')
     {
         if(parent::siteRequest($fkey, 'cadastrar_prestador')) {
             $post = $_POST;
@@ -241,7 +241,7 @@ class Cadastrar extends Sistema
      * @param array $post
      * @return array
      */
-    private function validarCadastro(array $post=array())
+    private static function validarCadastro(array $post=array())
     {
         $return = array('status'=>true, 'error'=>true, 'message'=>"Por favor, verifique os campos em vermelho.", 'fields'=>array(), 'errorInfo'=>array());
         if(empty($post)) {
@@ -340,7 +340,7 @@ class Cadastrar extends Sistema
     /*
      * Privilégios de acesso a essa página
      */
-    private function myPrivilege($privilege='')
+    private static function myPrivilege($privilege='')
     {
         if(parent::hasPrivilege($privilege)){
             new Error(505);
