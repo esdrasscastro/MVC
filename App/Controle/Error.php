@@ -41,4 +41,11 @@ class Error extends Sistema
         require_once parent::$errorPath.'505.phtml';
         self::footer();
     }
+
+    public static function error302()
+    {
+        self::header('Falha de Conexão!');
+        require_once parent::$errorPath.'302.phtml';
+        self::footer();
+    }
 }

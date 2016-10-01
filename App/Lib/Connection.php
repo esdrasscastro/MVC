@@ -7,6 +7,8 @@
 
 namespace Lib;
 
+use Controle\Error;
+
 class Connection
 {
 	private static $conn = null;
@@ -18,7 +20,7 @@ class Connection
      * @param $username
      * @param $passwd
      * @param array $options
-     * @return null|PDO
+     * @return null|\PDO
      */
     public static function connect($dsn='',$username, $passwd, array $options = array())
     {
@@ -26,7 +28,9 @@ class Connection
             try{
                 self::$conn = new \PDO($dsn, $username, $passwd, $options);
             }catch(\PDOException $err){
-                die($err->getMessage());
+                new Error(302);
+                exit;
+                //echo($err->getMessage());
             }
         }
 

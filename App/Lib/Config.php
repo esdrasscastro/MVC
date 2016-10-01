@@ -43,9 +43,9 @@ class Config
     protected static $breadcrumb = [];
     protected static $showBreadcrumb = true;
     protected static $dsn = '';
-    protected static $hostdb = 'localhost:82';
-    protected static $userdb = 'movementes';
-    protected static $passdb = 'movementes';
+    protected static $hostdb = 'localhost';
+    protected static $userdb = 'root';
+    protected static $passdb = '';
     protected static $dbname = 'acheimed';
     protected static $privilegeAllowed = array();
 
@@ -72,7 +72,7 @@ class Config
         self::$jsPath = self::$mediasPath.'js/';
         self::$cssPath = self::$mediasPath.'css/';
 
-        self::$dsn .= "mysql:host=".self::$hostdb.";dbname=".self::$dbname.";charset=UTF8";
+        self::$dsn = "mysql:host=".self::$hostdb.";dbname=".self::$dbname.";charset=UTF8";
     }
 
     protected static function useDatabase($yes=true)
@@ -83,7 +83,7 @@ class Config
 
     protected static function connect()
     {
-        \Lib\Connection::connect(self::$dsn, self::$userdb, self::$passdb);
+        Connection::connect(self::$dsn, self::$userdb, self::$passdb);
     }
 
     protected static function setUserPrivilege($userPrivilege='')
